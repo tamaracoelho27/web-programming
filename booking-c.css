@@ -96,59 +96,31 @@ ul li a:hover{
 .srch:focus{
     outline:none;
 }
-.content{
-    width: fit-content;
-    height: fit-content;
-    margin: 2% auto;
-    color: white;
-    position: relative;
-    text-align: left;
-    padding:20px;
-    background-color: rgb(83, 76, 150);
+.box{
+    background-color: rgb(69, 22, 126);
+    width: 60%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 50px;
     border-radius: 20px;
-    border-color: white;
 }
-.content p{
-    padding-bottom: 25px;
-    font-family: Arial, Helvetica, sans-serif;
+table th {
+    color: white;
+    padding: 5px;
+    width: 150px;
+    height: 30px;
 }
-.content .Booking {
-    width: 160px;
-    height:40px;
-    background-color: rgb(210, 210, 244);
+td{
+    color: white;
+}
+.mybtn{
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 20px;
+    padding-right: 10px;
+    background-color: rgb(160, 86, 229);
     border: none;
-    margin-left: 20px;
-    font-size: 12px;
     border-radius: 10px;
-    cursor:pointer;
-    transition: 0.4s ease;
-
-}
-.Booking  a{
-    text-decoration: none;
-    color: black;
-    transition: .3s ease;
-}
-.Booking :hover{
-    background-color: rgb(180, 180, 230);
-}
-.content .View, .Feedback{
-    width: 160px;
-    height:40px;
-    background-color: rgb(210, 210, 244);
-    border: none;
-    margin-left: 20px;
-    font-size: 12px;
-    border-radius: 10px;
-    cursor:pointer;
-    transition: 0.4s ease;
-
-}
-.View, .Feedback{
-    text-decoration: none;
-    color: black;
-    transition: .3s ease;
-}
-.View , .Feedback :hover{
-    background-color: rgb(180, 180, 230);
+    margin-left:  250px;
+    width:50px;
 }

@@ -96,59 +96,41 @@ ul li a:hover{
 .srch:focus{
     outline:none;
 }
-.content{
-    width: fit-content;
-    height: fit-content;
-    margin: 2% auto;
+.box{
+    background-color: rgba(159, 96, 186, 0.95);
+    width: 800px;
+    height: 400px;
+    margin:  0 auto;
+    margin-top: 30px;
+    border-radius: 30px;
+}
+.feedback-box h2{
+    padding-bottom: 20px;
+    color:rgb(24, 4, 67);
+    margin-left: 30px;
+    margin-top: 30px;
+    padding-top: 20px;
+}
+.feedback-box p{
+    color: rgb(24, 4, 67);
+    margin-left: 10px;
+    padding-left: 20px;
+}
+#feedbackText{
+    margin-top: 30px;
+    margin-left: 30px;
+    padding: 50px;
+    height: 25px;
+    width: 650px;
+}
+input[type="button"] {
+    background-color: #3c0854; /* Green background */
     color: white;
-    position: relative;
-    text-align: left;
-    padding:20px;
-    background-color: rgb(83, 76, 150);
-    border-radius: 20px;
-    border-color: white;
-}
-.content p{
-    padding-bottom: 25px;
-    font-family: Arial, Helvetica, sans-serif;
-}
-.content .Booking {
-    width: 160px;
-    height:40px;
-    background-color: rgb(210, 210, 244);
+    padding: 10px 20px;
+    font-size: 16px;
     border: none;
-    margin-left: 20px;
-    font-size: 12px;
-    border-radius: 10px;
-    cursor:pointer;
-    transition: 0.4s ease;
-
-}
-.Booking  a{
-    text-decoration: none;
-    color: black;
-    transition: .3s ease;
-}
-.Booking :hover{
-    background-color: rgb(180, 180, 230);
-}
-.content .View, .Feedback{
-    width: 160px;
-    height:40px;
-    background-color: rgb(210, 210, 244);
-    border: none;
-    margin-left: 20px;
-    font-size: 12px;
-    border-radius: 10px;
-    cursor:pointer;
-    transition: 0.4s ease;
-
-}
-.View, .Feedback{
-    text-decoration: none;
-    color: black;
-    transition: .3s ease;
-}
-.View , .Feedback :hover{
-    background-color: rgb(180, 180, 230);
-}
+    border-radius: 4px;
+    cursor: pointer;
+    width: 100%;
+    transition: background-color 0.3s ease;
+  }

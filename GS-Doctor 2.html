@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GP-doctor1</title>
+    <link rel = "stylesheet" href ="doctor.css">
+</head>
+<body>
+    <div class="main">
+            <div class="navbar">
+                <div class="icon">
+                    <h2 class="logo">MyHospital</h2>
+                </div>
+    
+                <div class="menu">
+                    <ul>
+                        <li><a href="homepage.html">Home</a></li>
+                        <li><a href="#">About</a></li>
+                        <li><a href="#">Service</a></li>
+                        <li><a href="#">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="search">
+                    <input class="srch" type="search" name="" placeholder="Type">
+                    <a href="#"> <button class="btn">Search</button></a>
+                </div>
+            </div>
+            <section class = "home">
+                <div class = home-content>
+                    <h3> Dr. Emily Turner </h3>
+                    <p>Dr. Emily Turner is a skilled General Surgeon with extensive experience in performing a variety of surgical procedures. She is committed to providing high-quality care, from initial diagnosis to post-operative recovery, ensuring patients receive tailored treatment plans. Dr. Turner is known for her precision, expertise, and compassionate approach to patient care.</p>
+                    <div class = btn-box>
+                        <button class="btn-1">Select a Date</button>
+                        <div id = calendar class = hidden >
+                            <input type = date id =calendarInput >
+                        </div>
+
+                        <div id=timing-container class = timing-container>
+                            <div id="available timings"></div>
+                        </div>
+                        
+                        <div id = book class = hidden>
+                            <button class = btn-2>Confirm</button>
+                        </div>
+                    </div>
+                </div>
+                <div class = img-box>
+                    <img src="GS-Doctor 2.jpg" alt="doctor pic">
+                </div>
+            </section>
+    </div>
+    <script src="GP-Doctor 1.js"></script>
+
+</body>
+</html>

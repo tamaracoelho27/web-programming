@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Hospital</title>
+    <link rel="stylesheet" href="Booking.css">
+    <script 
+    src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script> 
+        $(document).ready(function(){
+            $(".dropdown1").click(function(){
+                $(".content1").slideToggle("slow");
+               
+            });
+            $(".dropdown2").click(function(){
+                $(".content2").slideToggle("slow");
+               
+            });
+            $(".dropdown3").click(function(){
+                $(".content3").slideToggle("slow");
+               
+            });
+
+            $(".dropdown4").click(function(){
+                $(".content4").slideToggle("slow");
+               
+            });
+        })
+         </script>
+
+</head>
+<body>
+    <div class="main">
+        <div class="navbar">
+            <div class="icon">
+                <h2 class="logo">MyHospital</h2>
+            </div>
+
+            <div class="menu">
+                <ul>
+                    <li><a href="homepage.html">Home</a></li>
+                    <li><a href="#">About</a></li>
+                    <li><a href="#">Service</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+            </div>
+            <div class="search">
+                <input class="srch" type="search" name="" placeholder="Type">
+                <a href="#"> <button class="btn">Search</button></a>
+            </div>
+        </div>
+        
+        <div class="dropdown1">
+            <h3>General Practice</h3>
+                <div class="content1">
+                    <a href="GP-Doctor 1.html">Dr Sarah Johnson</a><br>
+                    <a href="GP-Doctor 2.html">Dr Jane Smith</a><br>
+                </div>
+        </div>
+        
+        <div class="dropdown2">
+            <h3>General Surgery</h3>
+                <div class="content2">
+                    <a href="GS-Doctor 1.html">Dr John Carter</a><br>
+                    <a href="GS-Doctor 2.html">Dr Emily Turner</a><br>
+                </div>
+        </div>
+
+        <div class="dropdown3">
+            <h3>Pediatricians </h3>
+                <div class="content3">
+                    <a href="PD-doctor 1.html">Dr Sarah Adams</a><br>
+                    <a href="PD-doctor 2.html">Dr James Miller</a><br>
+                </div>
+        </div>
+
+        <div class="dropdown4">
+            <h3>Dermatologists</h3>
+                <div class="content4">
+                    <a href="DG-doctor 1.html">Dr Olivia Bennett</a><br>
+                    <a href="DG - doctor 2.html">Dr Ethan Collins</a><br>
+                </div>
+        </div>
+    </div>
+</body>
+</html>

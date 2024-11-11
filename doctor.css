@@ -7,8 +7,12 @@
     background: linear-gradient(to top,rgba(179, 195, 239, 0) 10%, rgba(146, 156, 240, 0) 10%), url(hospital.jpg);
     background-position: center;
     background-size: cover;
-    height: 109vh;
+    background-repeat: no-repeat;
+    height: 100vh; 
+    
+
 }
+
 .navbar{
     width: 1200px;
     height:75px;
@@ -74,8 +78,8 @@ ul li a:hover{
     font-size: 16px;
     float: left;
     padding: 10px;
-    border-bottom-left-radius: 5px;
-    border-top-left-radius: 5px;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
 }
 .btn{
     width:100px;
@@ -96,59 +100,87 @@ ul li a:hover{
 .srch:focus{
     outline:none;
 }
-.content{
+
+.home {
+    background-color: rgb(83, 76, 150);
+    display: flex;
+    align-items: centre;
+    gap: 7 em;
+    padding: 30px 12% 0;
+    margin-left: 50px;
     width: fit-content;
     height: fit-content;
-    margin: 2% auto;
+    margin: 50px;
+    border-radius: 50px;
+    font-size: small;
+
+}
+
+.home-content{
+    max-width: 800px
+}
+.home-content h3{
+    font-size: 62px;
+    line-height: 1.2 ;
+    color: aliceblue;
+}
+.home-content p{
+    font-size: 18px;
+    margin: 25px 0 30px;
+    color: aliceblue;
+}
+.btn-box{
+    width: 345px;
+    display: flex;
+    gap: 2em;
+    padding: 30px;
+}
+.btn-1, .btn-2{
+    padding: 15px;
+    background-color: blueviolet;
     color: white;
-    position: relative;
-    text-align: left;
-    padding:20px;
-    background-color: rgb(83, 76, 150);
-    border-radius: 20px;
-    border-color: white;
+    border: 2px solid transparent;
+    border-radius: 8px;
+    font-size: 14px;
+    letter-spacing: 1 px;
+    font-weight: 600;
+    transition: 0.3s ease;
+    cursor: pointer;
 }
-.content p{
-    padding-bottom: 25px;
-    font-family: Arial, Helvetica, sans-serif;
-}
-.content .Booking {
-    width: 160px;
-    height:40px;
-    background-color: rgb(210, 210, 244);
-    border: none;
-    margin-left: 20px;
-    font-size: 12px;
-    border-radius: 10px;
-    cursor:pointer;
-    transition: 0.4s ease;
-
-}
-.Booking  a{
-    text-decoration: none;
+.btn-1, .btn-2:hover{
+    background-color: rgb(51, 1, 69);
     color: black;
-    transition: .3s ease;
+    border: 2px solid black;
 }
-.Booking :hover{
-    background-color: rgb(180, 180, 230);
+.img-box img{
+    border-radius: 50%;
+    width: 300px;  
+    height: 300px;  
+    object-fit:cover;
+    margin-top: 20px;
+    margin-left: 30px;
 }
-.content .View, .Feedback{
-    width: 160px;
-    height:40px;
-    background-color: rgb(210, 210, 244);
-    border: none;
-    margin-left: 20px;
-    font-size: 12px;
-    border-radius: 10px;
-    cursor:pointer;
-    transition: 0.4s ease;
 
+
+.hidden {
+    display: none;
 }
-.View, .Feedback{
-    text-decoration: none;
-    color: black;
-    transition: .3s ease;
+
+#calendar {
+    margin-top: 20px;
+    border-radius: 10px;
 }
-.View , .Feedback :hover{
-    background-color: rgb(180, 180, 230);
+.btn-1{
+    padding: 10px 20px;
+    background-color: #461471;
+    color: white;
+    border: none;
+    cursor: pointer;
 }
+
+.timing-container{
+    display: none;
+    margin-top: 20px
+}
+
+
