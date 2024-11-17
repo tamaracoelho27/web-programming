@@ -1,0 +1,218 @@
+
+CREATE DATABASE admin_system;
+USE admin_system;
+CREATE TABLE admins (
+    id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    username VARCHAR(50) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    pin VARCHAR(6) NOT NULL,
+    PRIMARY KEY (id)
+);
+INSERT INTO admins (username, password, pin)
+VALUES ('admin1','password123', '123456');
+USE admin_system;
+CREATE TABLE patients (
+    id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    username VARCHAR(50) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    pin VARCHAR(6) NOT NULL,
+    PRIMARY KEY (id)
+);
+INSERT INTO patients (username, password, pin)
+VALUES ('patient','password', '123456');
+
+
+
+CREATE TABLE hospital_system.doctors_schedule (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    doctor_id VARCHAR(10) NOT NULL, -- Match the data type of doctorID
+    day VARCHAR(10) NOT NULL,
+    time_slot TIME NOT NULL,
+    status ENUM('available', 'booked') DEFAULT 'available',
+    FOREIGN KEY (doctor_id) REFERENCES doctors(doctorID) ON DELETE CASCADE ON UPDATE CASCADE
+);
+  INSERT INTO doctors_schedule (doctor_id, day, time_slot, status)
+VALUES 
+-- Dr. Daniel Green (Dermatologist)
+('DG001', 'Monday', '09:00', 'available'),
+('DG001', 'Monday', '10:00', 'available'),
+('DG001', 'Monday', '11:00', 'available'),
+('DG001', 'Monday', '12:00', 'available'),
+('DG001', 'Monday', '13:00', 'available'),
+('DG001', 'Monday', '14:00', 'available'),
+('DG001', 'Monday', '15:00', 'available'),
+('DG001', 'Monday', '16:00', 'available'),
+
+('DG001', 'Tuesday', '09:00', 'available'),
+('DG001', 'Tuesday', '10:00', 'available'),
+('DG001', 'Tuesday', '11:00', 'available'),
+('DG001', 'Tuesday', '12:00', 'available'),
+('DG001', 'Tuesday', '13:00', 'available'),
+('DG001', 'Tuesday', '14:00', 'available'),
+('DG001', 'Tuesday', '15:00', 'available'),
+('DG001', 'Tuesday', '16:00', 'available'),
+
+('DG001', 'Wednesday', '09:00', 'available'),
+('DG001', 'Wednesday', '10:00', 'available'),
+('DG001', 'Wednesday', '11:00', 'available'),
+('DG001', 'Wednesday', '12:00', 'available'),
+('DG001', 'Wednesday', '13:00', 'available'),
+('DG001', 'Wednesday', '14:00', 'available'),
+('DG001', 'Wednesday', '15:00', 'available'),
+('DG001', 'Wednesday', '16:00', 'available'),
+
+('DG001', 'Thursday', '09:00', 'available'),
+('DG001', 'Thursday', '10:00', 'available'),
+('DG001', 'Thursday', '11:00', 'available'),
+('DG001', 'Thursday', '12:00', 'available'),
+('DG001', 'Thursday', '13:00', 'available'),
+('DG001', 'Thursday', '14:00', 'available'),
+('DG001', 'Thursday', '15:00', 'available'),
+('DG001', 'Thursday', '16:00', 'available'),
+
+('DG001', 'Friday', '09:00', 'available'),
+('DG001', 'Friday', '10:00', 'available'),
+('DG001', 'Friday', '11:00', 'available'),
+('DG001', 'Friday', '12:00', 'available'),
+('DG001', 'Friday', '13:00', 'available'),
+('DG001', 'Friday', '14:00', 'available'),
+('DG001', 'Friday', '15:00', 'available'),
+('DG001', 'Friday', '16:00', 'available'),
+
+-- Dr. Alice Brown (General Practitioner)
+('GP001', 'Monday', '09:00', 'available'),
+('GP001', 'Monday', '10:00', 'available'),
+('GP001', 'Monday', '11:00', 'available'),
+('GP001', 'Monday', '12:00', 'available'),
+('GP001', 'Monday', '13:00', 'available'),
+('GP001', 'Monday', '14:00', 'available'),
+('GP001', 'Monday', '15:00', 'available'),
+('GP001', 'Monday', '16:00', 'available'),
+
+('GP001', 'Tuesday', '09:00', 'available'),
+('GP001', 'Tuesday', '10:00', 'available'),
+('GP001', 'Tuesday', '11:00', 'available'),
+('GP001', 'Tuesday', '12:00', 'available'),
+('GP001', 'Tuesday', '13:00', 'available'),
+('GP001', 'Tuesday', '14:00', 'available'),
+('GP001', 'Tuesday', '15:00', 'available'),
+('GP001', 'Tuesday', '16:00', 'available'),
+
+('GP001', 'Wednesday', '09:00', 'available'),
+('GP001', 'Wednesday', '10:00', 'available'),
+('GP001', 'Wednesday', '11:00', 'available'),
+('GP001', 'Wednesday', '12:00', 'available'),
+('GP001', 'Wednesday', '13:00', 'available'),
+('GP001', 'Wednesday', '14:00', 'available'),
+('GP001', 'Wednesday', '15:00', 'available'),
+('GP001', 'Wednesday', '16:00', 'available'),
+
+('GP001', 'Thursday', '09:00', 'available'),
+('GP001', 'Thursday', '10:00', 'available'),
+('GP001', 'Thursday', '11:00', 'available'),
+('GP001', 'Thursday', '12:00', 'available'),
+('GP001', 'Thursday', '13:00', 'available'),
+('GP001', 'Thursday', '14:00', 'available'),
+('GP001', 'Thursday', '15:00', 'available'),
+('GP001', 'Thursday', '16:00', 'available'),
+
+('GP001', 'Friday', '09:00', 'available'),
+('GP001', 'Friday', '10:00', 'available'),
+('GP001', 'Friday', '11:00', 'available'),
+('GP001', 'Friday', '12:00', 'available'),
+('GP001', 'Friday', '13:00', 'available'),
+('GP001', 'Friday', '14:00', 'available'),
+('GP001', 'Friday', '15:00', 'available'),
+('GP001', 'Friday', '16:00', 'available'),
+
+-- Dr. Michael Smith (General Surgeon)
+('GS001', 'Monday', '09:00', 'available'),
+('GS001', 'Monday', '10:00', 'available'),
+('GS001', 'Monday', '11:00', 'available'),
+('GS001', 'Monday', '12:00', 'available'),
+('GS001', 'Monday', '13:00', 'available'),
+('GS001', 'Monday', '14:00', 'available'),
+('GS001', 'Monday', '15:00', 'available'),
+('GS001', 'Monday', '16:00', 'available'),
+
+('GS001', 'Tuesday', '09:00', 'available'),
+('GS001', 'Tuesday', '10:00', 'available'),
+('GS001', 'Tuesday', '11:00', 'available'),
+('GS001', 'Tuesday', '12:00', 'available'),
+('GS001', 'Tuesday', '13:00', 'available'),
+('GS001', 'Tuesday', '14:00', 'available'),
+('GS001', 'Tuesday', '15:00', 'available'),
+('GS001', 'Tuesday', '16:00', 'available'),
+
+('GS001', 'Wednesday', '09:00', 'available'),
+('GS001', 'Wednesday', '10:00', 'available'),
+('GS001', 'Wednesday', '11:00', 'available'),
+('GS001', 'Wednesday', '12:00', 'available'),
+('GS001', 'Wednesday', '13:00', 'available'),
+('GS001', 'Wednesday', '14:00', 'available'),
+('GS001', 'Wednesday', '15:00', 'available'),
+('GS001', 'Wednesday', '16:00', 'available'),
+
+('GS001', 'Thursday', '09:00', 'available'),
+('GS001', 'Thursday', '10:00', 'available'),
+('GS001', 'Thursday', '11:00', 'available'),
+('GS001', 'Thursday', '12:00', 'available'),
+('GS001', 'Thursday', '13:00', 'available'),
+('GS001', 'Thursday', '14:00', 'available'),
+('GS001', 'Thursday', '15:00', 'available'),
+('GS001', 'Thursday', '16:00', 'available'),
+
+('GS001', 'Friday', '09:00', 'available'),
+('GS001', 'Friday', '10:00', 'available'),
+('GS001', 'Friday', '11:00', 'available'),
+('GS001', 'Friday', '12:00', 'available'),
+('GS001', 'Friday', '13:00', 'available'),
+('GS001', 'Friday', '14:00', 'available'),
+('GS001', 'Friday', '15:00', 'available'),
+('GS001', 'Friday', '16:00', 'available'),
+
+-- Dr. Emma Johnson (Pediatrician)
+('PD001', 'Monday', '09:00', 'available'),
+('PD001', 'Monday', '10:00', 'available'),
+('PD001', 'Monday', '11:00', 'available'),
+('PD001', 'Monday', '12:00', 'available'),
+('PD001', 'Monday', '13:00', 'available'),
+('PD001', 'Monday', '14:00', 'available'),
+('PD001', 'Monday', '15:00', 'available'),
+('PD001', 'Monday', '16:00', 'available'),
+
+('PD001', 'Tuesday', '09:00', 'available'),
+('PD001', 'Tuesday', '10:00', 'available'),
+('PD001', 'Tuesday', '11:00', 'available'),
+('PD001', 'Tuesday', '12:00', 'available'),
+('PD001', 'Tuesday', '13:00', 'available'),
+('PD001', 'Tuesday', '14:00', 'available'),
+('PD001', 'Tuesday', '15:00', 'available'),
+('PD001', 'Tuesday', '16:00', 'available'),
+
+('PD001', 'Wednesday', '09:00', 'available'),
+('PD001', 'Wednesday', '10:00', 'available'),
+('PD001', 'Wednesday', '11:00', 'available'),
+('PD001', 'Wednesday', '12:00', 'available'),
+('PD001', 'Wednesday', '13:00', 'available'),
+('PD001', 'Wednesday', '14:00', 'available'),
+('PD001', 'Wednesday', '15:00', 'available'),
+('PD001', 'Wednesday', '16:00', 'available'),
+
+('PD001', 'Thursday', '09:00', 'available'),
+('PD001', 'Thursday', '10:00', 'available'),
+('PD001', 'Thursday', '11:00', 'available'),
+('PD001', 'Thursday', '12:00', 'available'),
+('PD001', 'Thursday', '13:00', 'available'),
+('PD001', 'Thursday', '14:00', 'available'),
+('PD001', 'Thursday', '15:00', 'available'),
+('PD001', 'Thursday', '16:00', 'available'),
+
+('PD001', 'Friday', '09:00', 'available'),
+('PD001', 'Friday', '10:00', 'available'),
+('PD001', 'Friday', '11:00', 'available'),
+('PD001', 'Friday', '12:00', 'available'),
+('PD001', 'Friday', '13:00', 'available'),
+('PD001', 'Friday', '14:00', 'available'),
+('PD001', 'Friday', '15:00', 'available'),
+('PD001', 'Friday', '16:00', 'available');
