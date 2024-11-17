@@ -18,31 +18,9 @@ Step 2 : Click admin of the mysql module and go to the phpmyadmin page which sho
 Note : Part 1 Step 3 is an one time step and you do not need to usually run it every single time, this step is just for first time installation. 
 
 
-Step 3 : Go to the sql part and insert the following code : 
+Step 3 : Go to the sql part and insert the full contents of the sql commands.txt file: 
     
-    
-    
-CREATE DATABASE admin_system;
-USE admin_system;
-CREATE TABLE admins (
-    id INT UNSIGNED NOT NULL AUTO_INCREMENT,
-    username VARCHAR(50) NOT NULL UNIQUE,
-    password VARCHAR(255) NOT NULL,
-    pin VARCHAR(6) NOT NULL,
-    PRIMARY KEY (id)
-);
-INSERT INTO admins (username, password, pin)
-VALUES ('admin1','password123', '123456');
-USE admin_system;
-CREATE TABLE patients (
-    id INT UNSIGNED NOT NULL AUTO_INCREMENT,
-    username VARCHAR(50) NOT NULL UNIQUE,
-    password VARCHAR(255) NOT NULL,
-    pin VARCHAR(6) NOT NULL,
-    PRIMARY KEY (id)
-);
-INSERT INTO patients (username, password, pin)
-VALUES ('patient','password', '123456');
+
 
 
 
