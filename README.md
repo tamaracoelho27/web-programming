@@ -3,13 +3,20 @@ If you want to setup the server for yourself, you need to make sure to do these 
 Before you start, make sure you have vs code, xampp, apache and a browser of your choice on hand
 
 Part 1 : Make sure your xampp server and sql databases are apporpriately written into 
-    Step 1 : Firstly, open xampp and make sure your apache and mysql modules are on as shown in the picture
-        ![image](https://github.com/user-attachments/assets/b45e7ea0-1f73-427d-ba57-fcb4a2488cee)
-    Step 2 : Click admin of the mysql module and go to the phpmyadmin page which should open in your browser for you and look like the pictures below
-        <img width="502" alt="image" src="https://github.com/user-attachments/assets/b5659ef8-9bb5-488d-8ec1-aa17cba76e2a">
-        ![image](https://github.com/user-attachments/assets/7dcba258-f705-4dda-879d-523ceeed217d)
-    Note : Part 1 Step 3 is an one time step and you do not need to usually run it every single time, this step is just for first time installation. 
-    Step 3 : Go to the sql part and insert the following code : 
+
+
+
+
+Step 1 : Firstly, open xampp and make sure your apache and mysql modules are on as shown in the picture
+![image](https://github.com/user-attachments/assets/b45e7ea0-1f73-427d-ba57-fcb4a2488cee)
+
+
+Step 2 : Click admin of the mysql module and go to the phpmyadmin page which should open in your browser for you and look like the pictures below
+<img width="502" alt="image" src="https://github.com/user-attachments/assets/b5659ef8-9bb5-488d-8ec1-aa17cba76e2a">
+![image](https://github.com/user-attachments/assets/7dcba258-f705-4dda-879d-523ceeed217d)
+    
+Note : Part 1 Step 3 is an one time step and you do not need to usually run it every single time, this step is just for first time installation. 
+Step 3 : Go to the sql part and insert the following code : 
     CREATE DATABASE admin_system;
     USE admin_system;
     CREATE TABLE admins (
@@ -31,15 +38,6 @@ Part 1 : Make sure your xampp server and sql databases are apporpriately written
     );
     INSERT INTO patients (username, password, pin)
     VALUES ('patient','password', '123456');
-
-
-
-
-
-
-
-
-
 Part 2 : Initalize the server in vs code
 Before you start, you need the server and a database open so you can actually refer so first downlaod the apps
     Step 1 : Download the full code zip files in the github and extract them 
