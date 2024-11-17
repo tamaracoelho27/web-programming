@@ -16,30 +16,44 @@ Step 2 : Click admin of the mysql module and go to the phpmyadmin page which sho
 ![image](https://github.com/user-attachments/assets/7dcba258-f705-4dda-879d-523ceeed217d)
     
 Note : Part 1 Step 3 is an one time step and you do not need to usually run it every single time, this step is just for first time installation. 
+
+
 Step 3 : Go to the sql part and insert the following code : 
-    CREATE DATABASE admin_system;
-    USE admin_system;
-    CREATE TABLE admins (
-        id INT UNSIGNED NOT NULL AUTO_INCREMENT,
-        username VARCHAR(50) NOT NULL UNIQUE,
-        password VARCHAR(255) NOT NULL,
-        pin VARCHAR(6) NOT NULL,
-        PRIMARY KEY (id)
-    );
-    INSERT INTO admins (username, password, pin)
-    VALUES ('admin1','password123', '123456');
-    USE admin_system;
-    CREATE TABLE patients (
-        id INT UNSIGNED NOT NULL AUTO_INCREMENT,
-        username VARCHAR(50) NOT NULL UNIQUE,
-        password VARCHAR(255) NOT NULL,
-        pin VARCHAR(6) NOT NULL,
-        PRIMARY KEY (id)
-    );
-    INSERT INTO patients (username, password, pin)
-    VALUES ('patient','password', '123456');
+    
+    
+    
+CREATE DATABASE admin_system;
+USE admin_system;
+CREATE TABLE admins (
+    id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    username VARCHAR(50) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    pin VARCHAR(6) NOT NULL,
+    PRIMARY KEY (id)
+);
+INSERT INTO admins (username, password, pin)
+VALUES ('admin1','password123', '123456');
+USE admin_system;
+CREATE TABLE patients (
+    id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    username VARCHAR(50) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    pin VARCHAR(6) NOT NULL,
+    PRIMARY KEY (id)
+);
+INSERT INTO patients (username, password, pin)
+VALUES ('patient','password', '123456');
+
+
+
+
 Part 2 : Initalize the server in vs code
+
+
 Before you start, you need the server and a database open so you can actually refer so first downlaod the apps
+
+
+
 Step 1 : Download the full code zip files in the github and extract them 
     Note : Part 2 Step 1 is once again a one time step, you only need to do this once, you dont need to redownload the code everytime you want to test out the code 
 
@@ -72,11 +86,15 @@ Step 7 : Make sure the terminal is git bash as the following commands only work 
 
 
 Step 8 : Once this is done, run the following commands in this git bash terminal (This is assuming you have done the previous steps correctly, do these commands one by one line by line)
-    npm init -y
-    npm install express body-parser bcrypt mysql dotenv cors mysql2
-    node server.js
-    
-    
+
+
+        
+npm init -y
+npm install express body-parser bcrypt mysql dotenv cors mysql2
+node server.js
+
+
+     
 The below images are what you should see as you type out each command one by one
         ![image](https://github.com/user-attachments/assets/da5c28df-544b-48ce-ac04-bb83e8f6e583)
         ![image](https://github.com/user-attachments/assets/bf8f2daa-7308-47fb-a6d4-0b41c44d1ff0)
