@@ -107,6 +107,32 @@ app.post("/patient/login", (req, res) => {
     res.status(200).json({ message: "Login successful" });
   });
 });
+// Patient signup route
+app.post("/patient/signup", (req, res) => {
+  console.log("POST /patient/signup received. Body:", req.body);
+
+  const { username, password, pin } = req.body;
+
+  // Validate input
+  if (!username || !password || !pin) {
+      return res.status(400).json({ message: "All fields are required" });
+  }
+
+  // Insert new patient into the database
+  const query = "INSERT INTO patients (username, password, pin) VALUES (?, ?, ?)";
+  db.query(query, [username, password, pin], (err, results) => {
+      if (err) {
+          console.error("Database error:", err);
+          // Check for unique constraint violation
+          if (err.code === "ER_DUP_ENTRY") {
+              return res.status(409).json({ message: "Username already exists" });
+          }
+          return res.status(500).json({ message: "Database error" });
+      }
+
+      res.status(201).json({ message: "Signup successful" });
+  });
+});
 
 // Handle unknown routes
 app.use((req, res) => {

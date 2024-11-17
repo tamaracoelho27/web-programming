@@ -5,18 +5,57 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Patient Log-in Page</title>
     <link rel="stylesheet" href="patientlogin.css">
+    <script>
+        async function handlePatientLogin(event) {
+          event.preventDefault(); // Prevent the default form submission
+      
+          const username = document.querySelector("input[placeholder='Username']").value.trim();
+          const password = document.querySelector("input[placeholder='Password']").value.trim();
+          const patientID = document.querySelector("input[placeholder='Patient ID']").value.trim();
+      
+          try {
+            console.log("Sending login request..."); // Debug log
+            const response = await fetch('http://localhost:3000/patient/login', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ username, password, pin: patientID }) // Ensure correct key for pin
+            });
+      
+            const result = await response.json();
+            console.log("Response from server:", result); // Debug log
+      
+            if (response.ok) {
+              alert('Login successful!');
+              window.location.href = "homepage.html"; // Redirect to Admin HP page
+            } else {
+              alert(result.message || 'Login failed. Please try again.');
+            }
+          } catch (error) {
+            console.error("Error during login:", error); // Debug log
+            alert("An error occurred. Please check your connection and try again.");
+          }
+        }
+      </script>
 </head> 
 <body>
-        <div class="login-panel">
-            <h2>Patient log in</h2>
-            <form action="homepage.html">
-                <input type="text" placeholder="Username" required >
-                <input type="text" placeholder="Password" required>
-                <input type="text" placeholder="Patient ID" required>
-                <input type="submit" value="Log in">
-            </form>
-            <p>Don't have an account? <a href="patientsignin.html">Create Account </a></p>
-        </div>
-
+  <div class="login-panel">
+    <form class="login-form" onsubmit="handlePatientLogin(event)">
+      <h1>Patient Login</h1>
+      <div class="input-box">
+        <input type="text" placeholder="Username" required>
+        <i class='bx bxs-user'></i>
+      </div>
+      <div class="input-box">
+        <input type="password" placeholder="Password" required>
+        <i class='bx bxs-lock-alt'></i>
+      </div>
+      <div class="input-box">
+        <input type="password" placeholder="Patient ID" required>
+        <i class='bx bxs-lock-alt'></i>
+      </div>
+      <button type="submit" class="btn">Login</button>
+    </form>
+    <p>Don't have an account? <a href="patientsignin.html">Create Account </a></p>
+  </div>
 </body>
 </html>

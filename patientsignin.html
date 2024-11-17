@@ -5,19 +5,58 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Patient Sign-in Page</title>
     <link rel="stylesheet" href="patientlogin.css">
+    <script>
+        async function handlePatientSignup(event) {
+            event.preventDefault(); // Prevent the default form submission
+
+            const username = document.querySelector("input[placeholder='Username']").value.trim();
+            const password = document.querySelector("input[placeholder='Password']").value.trim();
+            const patientID = document.querySelector("input[placeholder='Patient ID']").value.trim();
+
+            try {
+                console.log("Sending signup request..."); // Debug log
+                const response = await fetch('http://localhost:3000/patient/signup', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, password, pin: patientID }) // Ensure correct key names
+                });
+
+                const result = await response.json();
+                console.log("Response from server:", result); // Debug log
+
+                if (response.ok) {
+                    alert('Signup successful! Please log in.');
+                    window.location.href = "patientlogin.html"; // Redirect to login page
+                } else {
+                    alert(result.message || 'Signup failed. Please try again.');
+                }
+            } catch (error) {
+                console.error("Error during signup:", error); // Debug log
+                alert("An error occurred. Please check your connection and try again.");
+            }
+        }
+    </script>
 </head> 
 <body>
     <div class="login-panel">
-        <h2>Patient Sign-in</h2>
-        <form action="homepage.html">
+        <form class="signup-form" onsubmit="handlePatientSignup(event)">
+            <h1>Patient Signup</h1>
             <input type="text" id="name" placeholder="Name" required>
             <input type="text" id="DOB" placeholder="Date of Birth"  required>
             <input type="text" id="email" placeholder="Email Address" required>
-            <input type="text" id="username" placeholder="Username" required>
-            <input type="text" id=password placeholder="Password" required>
-            <input type="text" id=password placeholder="Re-enter Password" required>
-            <input type="text" placeholder="Patient ID" required>
-            <input type="submit" value="Sign-up">
+            <div class="input-box">
+                <input type="text" placeholder="Username" required>
+                <i class='bx bxs-user'></i>
+            </div>
+            <div class="input-box">
+                <input type="password" placeholder="Password" required>
+                <i class='bx bxs-lock-alt'></i>
+            </div>
+            <div class="input-box">
+                <input type="text" placeholder="Patient ID" required>
+                <i class='bx bxs-lock-alt'></i>
+            </div>
+            <button type="submit" class="btn">Sign Up</button>
         </form>
         <p>Already have an account? <a href=patientlogin.html>Log-in</a></p>
     </div>
