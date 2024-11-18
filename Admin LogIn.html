@@ -28,7 +28,7 @@
   
         if (response.ok) {
           alert('Login successful!');
-          window.location.href = "adminhomepage.html"; // Redirect to Admin HP page
+          window.location.href = "Admin HP.html"; // Redirect to Admin HP page
         } else {
           alert(result.message || 'Login failed. Please try again.');
         }
@@ -43,7 +43,7 @@
 <body>
   <div class="wrapper">
     <form class="login-form" onsubmit="handleAdminLogin(event)">
-      <h1>Admin Login</h1>
+      <h1>Login</h1>
       <div class="input-box">
         <input type="text" placeholder="Username" required>
         <i class='bx bxs-user'></i>

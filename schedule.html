@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doctor Schedule</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f8f9fa;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 32px;
+            margin-bottom: 20px;
+        }
+
+        select {
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            margin-bottom: 20px;
+        }
+
+        .schedule-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .day-column {
+            text-align: center;
+        }
+
+        .day-label {
+            font-weight: bold;
+            color: #555;
+            margin-bottom: 10px;
+        }
+
+        .time-slot {
+            padding: 10px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: bold;
+            text-align: center;
+            cursor: pointer;
+            transition: 0.3s ease;
+            color: white;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .time-slot.available {
+            background: #28a745; /* Green for available slots */
+        }
+
+        .time-slot.booked {
+            background: #dc3545; /* Red for booked slots */
+        }
+
+        .time-slot:hover {
+            opacity: 0.9;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Doctor Schedule</h1>
+        <div>
+            <label for="doctorSelect">Select a Doctor:</label>
+            <select id="doctorSelect" onchange="fetchSchedule()">
+                <option value="" disabled selected>-- Select a Doctor --</option>
+            </select>
+        </div>
+        <div class="schedule-grid" id="scheduleGrid">
+            <!-- Timetable will be dynamically generated -->
+        </div>
+    </div>
+
+    <script>
+        const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+        const timeSlots = ["09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00"];
+
+        // Fetch all doctors
+        async function fetchDoctors() {
+            try {
+                const response = await fetch('http://localhost:3001/doctors'); // Adjust backend URL
+                const doctors = await response.json();
+
+                const doctorSelect = document.getElementById('doctorSelect');
+                doctorSelect.innerHTML = '<option value="" disabled selected>-- Select a Doctor --</option>';
+                doctors.forEach(doctor => {
+                    const option = document.createElement('option');
+                    option.value = doctor.doctorID;
+                    option.textContent = `${doctor.doctorName} (${doctor.doctorSpecialty})`;
+                    doctorSelect.appendChild(option);
+                });
+            } catch (error) {
+                console.error('Error fetching doctors:', error);
+            }
+        }
+
+        // Fetch schedule for the selected doctor
+        async function fetchSchedule() {
+            const doctorID = document.getElementById('doctorSelect').value;
+
+            if (!doctorID) {
+                alert('Please select a doctor.');
+                return;
+            }
+
+            try {
+                const response = await fetch(`http://localhost:3001/schedule/${doctorID}`);
+                const schedule = await response.json();
+                renderSchedule(schedule, doctorID);
+            } catch (error) {
+                console.error('Error fetching schedule:', error);
+            }
+        }
+
+        // Render the timetable grid
+        function renderSchedule(schedule, doctorID) {
+            const scheduleGrid = document.getElementById('scheduleGrid');
+            scheduleGrid.innerHTML = ''; // Clear previous timetable
+
+            days.forEach(day => {
+                // Create a column for each day
+                const dayColumn = document.createElement('div');
+                dayColumn.classList.add('day-column');
+
+                // Add the day label
+                const dayLabel = document.createElement('div');
+                dayLabel.classList.add('day-label');
+                dayLabel.textContent = day;
+                dayColumn.appendChild(dayLabel);
+
+                // Add time slots for the day
+                timeSlots.forEach(timeSlot => {
+                    const slot = schedule.find(s => s.day === day && s.time_slot === timeSlot);
+
+                    const timeSlotDiv = document.createElement('div');
+                    timeSlotDiv.classList.add('time-slot', slot && slot.status ? slot.status : 'available');
+                    timeSlotDiv.textContent = `${timeSlot} - ${
+                        slot && slot.status === 'booked' ? 'Booked' : 'Available'
+                    }`;
+
+                    // Add click event to toggle booking status
+                    timeSlotDiv.onclick = async () => {
+                        const newStatus = slot && slot.status === 'booked' ? 'available' : 'booked';
+                        await updateSlot(doctorID, day, timeSlot, newStatus);
+                        fetchSchedule(); // Refresh the timetable
+                    };
+
+                    dayColumn.appendChild(timeSlotDiv);
+                });
+
+                scheduleGrid.appendChild(dayColumn);
+            });
+        }
+
+        // Update slot status
+        async function updateSlot(doctorID, day, timeSlot, status) {
+            try {
+                await fetch('http://localhost:3001/schedule/update', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ doctor_id: doctorID, day, time_slot: timeSlot, status })
+                });
+            } catch (error) {
+                console.error('Error updating slot:', error);
+            }
+        }
+
+        // Initialize the page
+        fetchDoctors();
+    </script>
+</body>
+</html>

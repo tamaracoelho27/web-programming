@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Modify Doctor Details</title>
+  <link rel="stylesheet" href="modify.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Modify Doctor Details</h1>
+
+    <label for="selectDoctor">Select Doctor to Modify:</label>
+    <select id="selectDoctor" onchange="populateDoctorDetails()">
+      <option value="">-- Select a Doctor --</option>
+    </select>
+
+    <form id="doctorForm">
+      <label for="doctorID">Doctor ID:</label>
+      <input type="text" id="doctorID" name="doctorID" placeholder="Enter Doctor ID" required>
+
+      <label for="doctorName">Doctor Name:</label>
+      <input type="text" id="doctorName" name="doctorName" placeholder="Enter Doctor Name" required>
+
+      <label for="doctorSpecialty">Doctor Specialty:</label>
+      <input type="text" id="doctorSpecialty" name="doctorSpecialty" placeholder="Enter Doctor Specialty" required>
+
+      <label for="doctorPhone">Doctor Phone Number:</label>
+      <input type="text" id="doctorPhone" name="doctorPhone" placeholder="Enter Doctor Phone Number" required>
+
+      <div class="button-container">
+        <button type="submit" class="btn">Add / Modify</button>
+        <button type="button" class="btn btn-danger" onclick="deleteDoctor()">Delete</button>
+        <button type="reset" class="btn btn-clear">Clear Form</button>
+      </div>
+    </form>
+  </div>
+
+  <script>
+    window.onload = async function () {
+      const selectDoctor = document.getElementById("selectDoctor");
+
+      try {
+        const response = await fetch("http://localhost:3001/doctors");
+        if (!response.ok) throw new Error("Failed to fetch doctors");
+
+        const doctors = await response.json();
+
+        // Populate the dropdown
+        doctors.forEach((doctor) => {
+          const option = document.createElement("option");
+          option.value = doctor.doctorID;
+          option.textContent = `${doctor.doctorName} - ${doctor.doctorSpecialty}`;
+          selectDoctor.appendChild(option);
+        });
+      } catch (error) {
+        console.error("Error loading doctors:", error);
+      }
+    };
+
+    function populateDoctorDetails() {
+      const doctorID = document.getElementById("selectDoctor").value;
+
+      fetch("http://localhost:3001/doctors")
+        .then((res) => res.json())
+        .then((doctors) => {
+          const doctor = doctors.find((doc) => doc.doctorID === doctorID);
+          if (doctor) {
+            document.getElementById("doctorID").value = doctor.doctorID;
+            document.getElementById("doctorName").value = doctor.doctorName;
+            document.getElementById("doctorSpecialty").value = doctor.doctorSpecialty;
+            document.getElementById("doctorPhone").value = doctor.doctorPhone;
+          }
+        });
+    }
+
+    document.getElementById("doctorForm").addEventListener("submit", async function (event) {
+      event.preventDefault();
+
+      const doctorID = document.getElementById("doctorID").value.trim();
+      const doctorName = document.getElementById("doctorName").value.trim();
+      const doctorSpecialty = document.getElementById("doctorSpecialty").value.trim();
+      const doctorPhone = document.getElementById("doctorPhone").value.trim();
+
+      try {
+        const response = await fetch("http://localhost:3001/doctors", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ doctorID, doctorName, doctorSpecialty, doctorPhone }),
+        });
+        const result = await response.json();
+        alert(result.message);
+        window.location.reload();
+      } catch (error) {
+        console.error("Error adding/modifying doctor:", error);
+      }
+    });
+
+    async function deleteDoctor() {
+      const doctorID = document.getElementById("doctorID").value.trim();
+
+      if (!doctorID) {
+        alert("Please enter a Doctor ID to delete.");
+        return;
+      }
+
+      try {
+        const response = await fetch(`http://localhost:3001/doctors/${doctorID}`, {
+          method: "DELETE",
+        });
+        const result = await response.json();
+        alert(result.message);
+        window.location.reload();
+      } catch (error) {
+        console.error("Error deleting doctor:", error);
+      }
+    }
+  </script>
+</body>
+</html>

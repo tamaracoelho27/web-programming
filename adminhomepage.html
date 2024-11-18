@@ -3,39 +3,66 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Hospital</title>
-    <link rel="stylesheet" href="adminhomepage.css">
+    <title>Hospital Staff Homepage</title>
+    <link rel="stylesheet" href="HP style.css">
+    <script>
+        // Function to open new window based on panel clicked
+        function openNewWindow(panel) {
+            if (panel === 'schedule') {
+                window.open('schedule.html', '_blank'); // Opens the Doctor Schedules page in a new window
+            } else if (panel === 'modify') {
+                window.open('modify.html', '_blank'); // Opens the Modify Doctor Details page in a new window
+            } else if (panel === 'receipts') {
+                window.open('receipts.html', '_blank'); // Opens the View Receipts page in a new window
+            } else if (panel === 'feedback') {
+                window.open('feedback.html', '_blank'); // Opens the View Feedback page in a new window
+            }
+        }
+    </script>
 </head>
 <body>
-    <div class="main">
-        <div class="navbar">
-            <div class="icon">
-                <h2 class="logo">MyHospital ADMIN HOMEPAGE</h2>
+
+    <div class="container">
+        <header>
+            <h1>Hospital Staff Dashboard</h1>
+        </header>
+
+        <nav>
+            <ul>
+                <li><a href="schedule.html">Doctor Schedules</a></li>
+                <li><a href="modify.html">Modify Doctor Details</a></li>
+                <li><a href="receipts.html">View Receipts</a></li>
+                <li><a href="feedback.html">View Feedback</a></li>
+            </ul>
+        </nav>
+
+        <section class="dashboard">
+            <div class="card" id="schedule" onclick="openNewWindow('schedule')">
+                <h2>Doctor Schedules</h2>
+                <p>Access and manage doctor availability and appointments.</p>
             </div>
 
-            <div class="menu">
-                <ul>
-                    <li><a href="homepage.html">Home</a></li>
-                    <li><a href="#">About</a></li>
-                    <li><a href="#">Service</a></li>
-                    <li><a href="feedback.html">Contact</a></li>
-                </ul>
+            <div class="card" id="modify" onclick="openNewWindow('modify')">
+                <h2>Modify Doctor Details</h2>
+                <p>Edit and update doctor profiles and specialisations.</p>
             </div>
-            <div class="search">
-                <input class="srch" type="search" name="" placeholder="Type">
-                <a href="#"> <button class="btn">Search</button></a>
+
+            <div class="card" id="receipts" onclick="openNewWindow('receipts')">
+                <h2>View Receipts</h2>
+                <p>View and manage financial transactions and receipts.</p>
             </div>
-        </div>
-        <div class="content">
-            <h1>Welcome</h1><br>
-            <p>Welcome to MyHospital! MyHospital aims to provide quality healthcare and aid with the utmost compassion and expertise.
-                <br> Our state-of-the-art technology and skilled professionals aim to provide personalized healthcare to all our patients. 
-                <br>At MyHospital we ensure that all patients are provided with accessible care regardless of their backgrounds.</p>
-                <button class="Booking"><a href="Booking.html">add doctor not added</a></button>
-                <button class = "View"><a href = "booking-confirmation.html">remove doctor not added</a></button>
-                <button class = "Feedback"><a href = "feedback.html">modify doctor not added</a></button>
-        </div>
+
+            <div class="card" id="feedback" onclick="openNewWindow('feedback')">
+                <h2>View Feedback</h2>
+                <p>Check patient feedback and suggestions for improvement.</p>
+            </div>
+        </section>
+
+        <footer>
+            <p>&copy; F28WP GROUP 14 </p>
+        </footer>
     </div>
-    
+
 </body>
 </html>
+
