@@ -66,7 +66,6 @@ app.post("/admin/login", (req, res) => {
     res.status(200).json({ message: "Login successful" });
   });
 });
-
 // Patient login route
 app.post("/patient/login", (req, res) => {
   // Add a log to check if the request is received
@@ -133,7 +132,6 @@ app.post("/patient/signup", (req, res) => {
       res.status(201).json({ message: "Signup successful" });
   });
 });
-
 // Handle unknown routes
 app.use((req, res) => {
   res.status(404).json({ message: "Route not found" });
