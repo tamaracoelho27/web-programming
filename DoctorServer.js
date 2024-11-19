@@ -54,27 +54,18 @@ app.post("/doctors", (req, res) => {
 
       // Insert full weekly schedule for the doctor (Monday to Friday, 9:00 to 16:00)
       const scheduleQuery = `
-        INSERT INTO doctor_schedule (doctor_id, day, time_slot, status)
+        INSERT INTO doctors_schedule (doctor_id, day, time_slot, status)
         VALUES 
-        (?, 'Monday', '09:00', 'available'), (?, 'Monday', '10:00', 'available'), (?, 'Monday', '11:00', 'available'),
-        (?, 'Monday', '12:00', 'available'), (?, 'Monday', '13:00', 'available'), (?, 'Monday', '14:00', 'available'),
-        (?, 'Monday', '15:00', 'available'), (?, 'Monday', '16:00', 'available'),
-
-        (?, 'Tuesday', '09:00', 'available'), (?, 'Tuesday', '10:00', 'available'), (?, 'Tuesday', '11:00', 'available'),
-        (?, 'Tuesday', '12:00', 'available'), (?, 'Tuesday', '13:00', 'available'), (?, 'Tuesday', '14:00', 'available'),
-        (?, 'Tuesday', '15:00', 'available'), (?, 'Tuesday', '16:00', 'available'),
-
-        (?, 'Wednesday', '09:00', 'available'), (?, 'Wednesday', '10:00', 'available'), (?, 'Wednesday', '11:00', 'available'),
-        (?, 'Wednesday', '12:00', 'available'), (?, 'Wednesday', '13:00', 'available'), (?, 'Wednesday', '14:00', 'available'),
-        (?, 'Wednesday', '15:00', 'available'), (?, 'Wednesday', '16:00', 'available'),
-
-        (?, 'Thursday', '09:00', 'available'), (?, 'Thursday', '10:00', 'available'), (?, 'Thursday', '11:00', 'available'),
-        (?, 'Thursday', '12:00', 'available'), (?, 'Thursday', '13:00', 'available'), (?, 'Thursday', '14:00', 'available'),
-        (?, 'Thursday', '15:00', 'available'), (?, 'Thursday', '16:00', 'available'),
-
-        (?, 'Friday', '09:00', 'available'), (?, 'Friday', '10:00', 'available'), (?, 'Friday', '11:00', 'available'),
-        (?, 'Friday', '12:00', 'available'), (?, 'Friday', '13:00', 'available'), (?, 'Friday', '14:00', 'available'),
-        (?, 'Friday', '15:00', 'available'), (?, 'Friday', '16:00', 'available')
+        (?, 'Monday', '09:00', 'available'), (?, 'Monday', '10:00', 'available'),
+        (?, 'Monday', '11:00', 'available'),
+        (?, 'Tuesday', '09:00', 'available'), (?, 'Tuesday', '10:00', 'available'),
+        (?, 'Tuesday', '11:00', 'available'),
+        (?, 'Wednesday', '09:00', 'available'), (?, 'Wednesday', '10:00', 'available'),
+        (?, 'Wednesday', '11:00', 'available'),
+        (?, 'Thursday', '09:00', 'available'), (?, 'Thursday', '10:00', 'available'),
+        (?, 'Thursday', '11:00', 'available'),
+        (?, 'Friday', '09:00', 'available'), (?, 'Friday', '10:00', 'available'),
+        (?, 'Friday', '11:00', 'available')
       ON DUPLICATE KEY UPDATE
         status = VALUES(status)
       `;
