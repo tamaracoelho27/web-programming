@@ -15,7 +15,7 @@ const db = mysql.createConnection({
   host: 'localhost',
   user: 'root',
   password: '',
-  database: 'hospital_system',
+  database: 'admin_system',
 });
 
 // Connect to MySQL
