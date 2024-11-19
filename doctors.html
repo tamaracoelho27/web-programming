@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Doctor Timetable</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Doctor Timetable</h1>
+
+    <label for="selectDoctor">Select Doctor:</label>
+    <select id="selectDoctor" onchange="populateTimetable()">
+      <option value="">-- Select a Doctor --</option>
+    </select>
+
+    <div id="timetableContainer">
+      <h2>Timetable:</h2>
+      <table id="timetable" border="1">
+        <thead>
+          <tr>
+            <th>Day</th>
+            <th>Time Slot</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Timetable rows will be inserted here dynamically -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <script>
+    window.onload = async function () {
+      const selectDoctor = document.getElementById("selectDoctor");
+
+      try {
+        const response = await fetch("http://localhost:3002/doctors");
+        if (!response.ok) {
+          throw new Error(`Failed to fetch doctors: ${response.statusText}`);
+        }
+
+        const doctors = await response.json();
+        doctors.forEach((doctor) => {
+          const option = document.createElement("option");
+          option.value = doctor.doctorID;
+          option.textContent = `${doctor.doctorName} - ${doctor.doctorSpecialty}`;
+          selectDoctor.appendChild(option);
+        });
+      } catch (error) {
+        console.error("Error loading doctors:", error);
+      }
+    };
+
+    // Function to populate the timetable based on the selected doctor
+    async function populateTimetable() {
+      const doctorID = document.getElementById("selectDoctor").value;
+      const timetableBody = document.getElementById("timetable").getElementsByTagName('tbody')[0];
+
+      if (!doctorID) {
+        alert("Please select a doctor.");
+        return;
+      }
+
+      // Clear existing timetable
+      timetableBody.innerHTML = "";
+
+      try {
+        const response = await fetch(`http://localhost:3002/doctors/${doctorID}/schedule`);
+        
+        if (!response.ok) {
+          throw new Error("Failed to fetch timetable.");
+        }
+
+        const schedule = await response.json();
+
+        if (schedule.length === 0) {
+          const row = timetableBody.insertRow();
+          const cell = row.insertCell(0);
+          cell.colSpan = 3;
+          cell.textContent = "No timetable available for the selected doctor.";
+          return;
+        }
+
+        // Populate the timetable with data
+        schedule.forEach((slot) => {
+          const row = timetableBody.insertRow();
+          const cellDay = row.insertCell(0);
+          const cellTime = row.insertCell(1);
+          const cellStatus = row.insertCell(2);
+
+          // Insert values for day, time_slot, and status
+          cellDay.textContent = slot.day;
+          cellTime.textContent = slot.time_slot;
+          cellStatus.textContent = slot.status;
+        });
+      } catch (error) {
+        console.error("Error loading timetable:", error);
+        alert("An error occurred while loading the timetable. Please try again.");
+      }
+    }
+  </script>
+</body>
+</html>
