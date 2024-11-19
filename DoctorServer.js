@@ -94,6 +94,53 @@ app.post("/doctors", (req, res) => {
     }
   );
 });
+app.get("/doctors", (req, res) => {
+  const query = "SELECT doctorID, doctorName, doctorSpecialty FROM doctors";
+
+  db.query(query, (err, results) => {
+    if (err) {
+      console.error("Error fetching doctors:", err.message);
+      return res.status(500).json({ message: "Failed to fetch doctors." });
+    }
+    res.json(results); // Send the list of doctors
+  });
+});
+
+// Fetch doctor by ID
+app.get("/doctors/:doctorID", (req, res) => {
+  const doctorID = req.params.doctorID;
+  const query = "SELECT * FROM doctors WHERE doctorID = ?";
+  db.query(query, [doctorID], (err, results) => {
+    if (err) {
+      console.error("Error fetching doctor:", err);
+      res.status(500).send({ message: "Failed to fetch doctor." });
+    } else {
+      res.json(results[0]); // Return the first match
+    }
+  });
+});
+app.delete('/doctors/:doctorID', (req, res) => {
+  const { doctorID } = req.params;
+
+  const deleteDoctorQuery = "DELETE FROM doctors WHERE doctorID = ?";
+
+  db.query(deleteDoctorQuery, [doctorID], (err, results) => {
+    if (err) {
+      console.error("Error deleting doctor:", err.message);
+      return res.status(500).json({ message: "Failed to delete doctor." });
+    }
+
+    if (results.affectedRows > 0) {
+      res.json({ message: "Doctor with ID ${doctorID} deleted successfully." });
+    } else {
+      res.status(404).json({ message: "Doctor with ID ${doctorID} not found." });
+    }
+  });
+});
+
+  
+
+
 
 // Start the server
 const PORT = 3001;

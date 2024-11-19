@@ -1,0 +1,81 @@
+CREATE DATABASE admin_system;
+
+USE admin_system;
+
+CREATE TABLE admins (
+    id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    username VARCHAR(50) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    pin VARCHAR(6) NOT NULL,
+    PRIMARY KEY (id)
+);
+
+
+
+INSERT INTO admins (username, password, pin)
+VALUES ('admin1','password123', '123456');
+
+
+USE admin_system;
+
+CREATE TABLE patients (
+    id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    username VARCHAR(50) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    pin VARCHAR(6) NOT NULL,
+    PRIMARY KEY (id)
+);
+
+
+INSERT INTO patients (username, password, pin)
+VALUES ('patient','password', '123456');
+
+CREATE DATABASE hospital_system
+
+USE hospital_system
+
+CREATE TABLE doctors (
+    doctorID VARCHAR(10) NOT NULL PRIMARY KEY,
+    doctorName VARCHAR(255) NOT NULL,
+    doctorSpecialty VARCHAR(255) NOT NULL,
+    doctorPhone VARCHAR(15) NOT NULL
+);
+
+CREATE TABLE doctors_schedule (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    doctor_id VARCHAR(10) NOT NULL, -- Match the data type of doctorID
+    day VARCHAR(10) NOT NULL,
+    time_slot TIME NOT NULL,
+    status ENUM('available', 'booked') DEFAULT 'available',
+    FOREIGN KEY (doctor_id) REFERENCES doctors(doctorID) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+INSERT INTO doctors (doctorID, doctorName, doctorSpecialty, doctorPhone)
+VALUES ('DG001','Dr. Daniel Green','Dermatologist','01'),
+('GP001','Dr. Alice Brown','General Practitioner','02'),
+('GS001','Dr. Michael Smith','General Surgeon','03'),
+('PD001','Dr. Emma Johnson','Pediatrician','04');
+
+INSERT INTO doctors_schedule (doctor_id, day, time_slot, status)
+VALUES 
+-- Dr. Daniel Green (Dermatologist)
+('DG001', 'Monday', '09:00', 'available'),
+('DG001', 'Monday', '10:00', 'available'),
+
+
+-- Dr. Alice Brown (General Practitioner)
+('GP001', 'Monday', '09:00', 'available'),
+('GP001', 'Monday', '10:00', 'available'),
+
+
+-- Dr. Michael Smith (General Surgeon)
+('GS001', 'Monday', '09:00', 'available'),
+('GS001', 'Monday', '10:00', 'available'),
+
+-- Dr. Emma Johnson (Pediatrician)
+('PD001', 'Monday', '09:00', 'available'),
+('PD001', 'Monday', '10:00', 'available'),
+
+
+
+

@@ -41,10 +41,16 @@
       const selectDoctor = document.getElementById("selectDoctor");
 
       try {
+        console.log("Fetching doctors...");
         const response = await fetch("http://localhost:3001/doctors");
-        if (!response.ok) throw new Error("Failed to fetch doctors");
+        console.log("Response received:", response);
+
+        if (!response.ok) {
+          throw new Error(`Failed to fetch doctors: ${response.statusText}`);
+        }
 
         const doctors = await response.json();
+        console.log("Doctors fetched:", doctors);
 
         // Populate the dropdown
         doctors.forEach((doctor) => {
@@ -58,22 +64,40 @@
       }
     };
 
+    // Populate doctor details in the form
     function populateDoctorDetails() {
-      const doctorID = document.getElementById("selectDoctor").value;
+  const doctorID = document.getElementById("selectDoctor").value;
 
-      fetch("http://localhost:3001/doctors")
-        .then((res) => res.json())
-        .then((doctors) => {
-          const doctor = doctors.find((doc) => doc.doctorID === doctorID);
-          if (doctor) {
-            document.getElementById("doctorID").value = doctor.doctorID;
-            document.getElementById("doctorName").value = doctor.doctorName;
-            document.getElementById("doctorSpecialty").value = doctor.doctorSpecialty;
-            document.getElementById("doctorPhone").value = doctor.doctorPhone;
-          }
-        });
-    }
+  if (!doctorID) {
+    alert("Please select a doctor.");
+    return;
+  }
 
+  fetch(`http://localhost:3001/doctors/${doctorID}`)
+    .then((res) => {
+      if (!res.ok) {
+        throw new Error("Failed to fetch doctor details.");
+      }
+      return res.json();
+    })
+    .then((doctor) => {
+      if (doctor) {
+        document.getElementById("doctorID").value = doctor.doctorID || '';
+        document.getElementById("doctorName").value = doctor.doctorName || '';
+        document.getElementById("doctorSpecialty").value = doctor.doctorSpecialty || '';
+        document.getElementById("doctorPhone").value = doctor.doctorPhone || '';
+      } else {
+        console.error("Doctor not found.");
+      }
+    })
+    .catch((error) => {
+      console.error("Error fetching doctor details:", error);
+      alert("An error occurred while fetching doctor details. Please try again.");
+    });
+}
+
+
+    // Add or modify a doctor
     document.getElementById("doctorForm").addEventListener("submit", async function (event) {
       event.preventDefault();
 
@@ -96,6 +120,7 @@
       }
     });
 
+    // Delete a doctor
     async function deleteDoctor() {
       const doctorID = document.getElementById("doctorID").value.trim();
 
