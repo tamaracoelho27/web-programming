@@ -18,5 +18,6 @@
     "mysql": "^2.18.1",
     "mysql2": "^3.11.4"
   },
-  "description": "SETUP If you want to setup the server for yourself, you need to make sure to do these things in order for it to work in your system Before you start, make sure you have vs code, xampp, apache and a browser of your choice on hand"
+  "description": "SETUP If you want to setup the server for yourself, you need to make sure to do these things in order for it to work in your system Before you start, make sure you have vs code, xampp, apache and a browser of your choice on hand",
+  "devDependencies": {}
 }

@@ -1,87 +1,245 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Hospital</title>
-    <link rel="stylesheet" href="Booking.css">
-    <script 
-    src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-    <script> 
-        $(document).ready(function(){
-            $(".dropdown1").click(function(){
-                $(".content1").slideToggle("slow");
-               
-            });
-            $(".dropdown2").click(function(){
-                $(".content2").slideToggle("slow");
-               
-            });
-            $(".dropdown3").click(function(){
-                $(".content3").slideToggle("slow");
-               
-            });
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Book Appointment</title>
+  <style>
+    /* Add some basic styling */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
 
-            $(".dropdown4").click(function(){
-                $(".content4").slideToggle("slow");
-               
-            });
-        })
-         </script>
+    label {
+      font-weight: bold;
+    }
 
+    select, table, button {
+      margin: 10px 0;
+      padding: 10px;
+      font-size: 16px;
+    }
+
+    button {
+      background-color: green;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: darkgreen;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    table, th, td {
+      border: 1px solid black;
+    }
+
+    th, td {
+      padding: 10px;
+      text-align: center;
+    }
+
+    .selected {
+      background-color: lightblue;
+    }
+  </style>
 </head>
 <body>
-    <div class="main">
-        <div class="navbar">
-            <div class="icon">
-                <h2 class="logo">MyHospital</h2>
-            </div>
 
-            <div class="menu">
-                <ul>
-                    <li><a href="homepage.html">Home</a></li>
-                    <li><a href="#">About</a></li>
-                    <li><a href="#">Service</a></li>
-                    <li><a href="#">Contact</a></li>
-                </ul>
-            </div>
-            <div class="search">
-                <input class="srch" type="search" name="" placeholder="Type">
-                <a href="#"> <button class="btn">Search</button></a>
-            </div>
-        </div>
-        
-        <div class="dropdown1">
-            <h3>General Practice</h3>
-                <div class="content1">
-                    <a href="GP-Doctor 1.html">Dr Sarah Johnson</a><br>
-                    <a href="GP-Doctor 2.html">Dr Jane Smith</a><br>
-                </div>
-        </div>
-        
-        <div class="dropdown2">
-            <h3>General Surgery</h3>
-                <div class="content2">
-                    <a href="GS-Doctor 1.html">Dr John Carter</a><br>
-                    <a href="GS-Doctor 2.html">Dr Emily Turner</a><br>
-                </div>
-        </div>
+  <h1>Book Appointment</h1>
 
-        <div class="dropdown3">
-            <h3>Pediatricians </h3>
-                <div class="content3">
-                    <a href="PD-doctor 1.html">Dr Sarah Adams</a><br>
-                    <a href="PD-doctor 2.html">Dr James Miller</a><br>
-                </div>
-        </div>
+  <!-- Department selection dropdown -->
+  <label for="selectDepartment">Select Department:</label>
+  <select id="selectDepartment" onchange="populateDoctors()">
+    <option value="">-- Select a Department --</option>
+    <option value="General Practitioner">General Practitioner</option>
+    <option value="Pediatrician">Pediatrician</option>
+    <option value="Dermatologist">Dermatologist</option>
+    <option value="General Surgeon">General Surgeon</option>
+  </select>
 
-        <div class="dropdown4">
-            <h3>Dermatologists</h3>
-                <div class="content4">
-                    <a href="DG-doctor 1.html">Dr Olivia Bennett</a><br>
-                    <a href="DG - doctor 2.html">Dr Ethan Collins</a><br>
-                </div>
-        </div>
-    </div>
+  <!-- Doctor selection dropdown -->
+  <label for="selectDoctor">Select Doctor:</label>
+  <select id="selectDoctor">
+    <option value="">-- Select a Doctor --</option>
+  </select>
+
+  <!-- Available timetable (Booking Appointment) -->
+  <h3>Available Timetable:</h3>
+  <table id="timetable">
+    <thead>
+      <tr>
+        <th>Day</th>
+        <th>Time Slot</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Timetable rows will be inserted here dynamically -->
+    </tbody>
+  </table>
+
+  <button id="bookAppointment" onclick="bookAppointment()">Book Appointment</button>
+  <button id="cancelAppointment" onclick="cancelAppointment()">Cancel Appointment</button>
+
+  <script>
+    // Function to populate doctors based on selected department
+    async function populateDoctors() {
+      const department = document.getElementById("selectDepartment").value;
+      const selectDoctor = document.getElementById("selectDoctor");
+
+      if (!department) {
+        alert("Please select a department.");
+        return;
+      }
+
+      // Clear previous doctors
+      selectDoctor.innerHTML = "<option value=''>-- Select a Doctor --</option>";
+
+      try {
+        // Fetch doctors from the selected department
+        const response = await fetch(`http://localhost:3003/doctors?specialty=${encodeURIComponent(department)}`);
+        const doctors = await response.json();
+
+        if (doctors.length === 0) {
+          alert("No doctors available for this department.");
+          return;
+        }
+
+        // Populate doctor dropdown
+        doctors.forEach((doctor) => {
+          const option = document.createElement("option");
+          option.value = doctor.doctorID;
+          option.textContent = `${doctor.doctorName} - ${doctor.doctorSpecialty}`;
+          selectDoctor.appendChild(option);
+        });
+      } catch (error) {
+        console.error("Error loading doctors:", error);
+        alert("An error occurred while loading doctors. Please try again.");
+      }
+    }
+
+    // Function to populate the timetable based on selected doctor
+    async function populateTimetable() {
+      const doctorID = document.getElementById("selectDoctor").value;
+      const timetableBody = document.getElementById("timetable").getElementsByTagName('tbody')[0];
+
+      if (!doctorID) {
+        alert("Please select a doctor.");
+        return;
+      }
+
+      // Clear previous timetable
+      timetableBody.innerHTML = "";
+
+      try {
+        const response = await fetch(`http://localhost:3003/doctors/${doctorID}/schedule`);
+        const schedule = await response.json();
+
+        schedule.forEach((slot) => {
+          const row = timetableBody.insertRow();
+          const cellDay = row.insertCell(0);
+          const cellTime = row.insertCell(1);
+          const cellStatus = row.insertCell(2);
+
+          cellDay.textContent = slot.day;
+          cellTime.textContent = slot.time_slot;
+          cellStatus.textContent = slot.status;
+          row.setAttribute('data-slot-id', slot.scheduleID);  // Store the schedule ID
+        });
+      } catch (error) {
+        console.error("Error loading timetable:", error);
+        alert("An error occurred while loading the timetable. Please try again.");
+      }
+    }
+
+    // Function to handle the appointment booking
+    function bookAppointment() {
+      const doctorID = document.getElementById("selectDoctor").value;
+      const timetable = document.getElementById("timetable");
+      const selectedRow = timetable.querySelector("tr.selected");
+
+      if (!doctorID || !selectedRow) {
+        alert("Please select a doctor and time slot.");
+        return;
+      }
+
+      const day = selectedRow.cells[0].textContent;
+      const timeSlot = selectedRow.cells[1].textContent;
+      const scheduleID = selectedRow.getAttribute("data-slot-id");
+
+      // Update status in the database
+      fetch(`http://localhost:3003/doctors/schedule/book`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          scheduleID: scheduleID,
+          status: 'unavailable'
+        })
+      })
+      .then(response => response.json())
+      .then(data => {
+        alert(`Appointment booked for Dr. ${doctorID} on ${day} at ${timeSlot}`);
+        selectedRow.cells[2].textContent = 'unavailable';  // Update status in the table
+      })
+      .catch(error => console.error('Error booking appointment:', error));
+    }
+
+    // Function to handle appointment cancellation
+    function cancelAppointment() {
+      const timetable = document.getElementById("timetable");
+      const selectedRow = timetable.querySelector("tr.selected");
+
+      if (!selectedRow) {
+        alert("Please select a time slot to cancel.");
+        return;
+      }
+
+      const scheduleID = selectedRow.getAttribute("data-slot-id");
+
+      // Revert the status to available in the database
+      fetch(`http://localhost:3003/doctors/schedule/cancel`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          scheduleID: scheduleID,
+          status: 'available'
+        })
+      })
+      .then(response => response.json())
+      .then(data => {
+        alert(`Appointment for Dr. ${selectedRow.cells[0].textContent} on ${selectedRow.cells[1].textContent} cancelled.`);
+        selectedRow.cells[2].textContent = 'available';  // Revert status in the table
+      })
+      .catch(error => console.error('Error cancelling appointment:', error));
+    }
+
+    // Add click event to select a timetable row
+    document.getElementById("timetable").addEventListener("click", (e) => {
+      const row = e.target.closest("tr");
+
+      if (row && row.cells.length) {
+        const selectedRow = document.querySelector("tr.selected");
+        if (selectedRow) selectedRow.classList.remove("selected");
+        row.classList.add("selected");
+      }
+    });
+
+    // Call populateTimetable when a doctor is selected
+    document.getElementById("selectDoctor").addEventListener("change", populateTimetable);
+
+  </script>
+
 </body>
 </html>
