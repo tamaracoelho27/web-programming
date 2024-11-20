@@ -5,57 +5,199 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Book Appointment</title>
   <style>
-    /* Add some basic styling */
-    body {
-      font-family: Arial, sans-serif;
-      margin: 20px;
-    }
+    * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
-    label {
-      font-weight: bold;
-    }
+/* Main Container */
+.main {
+    width: 100%;
+    height: 100vh;
+    background: linear-gradient(to top, rgba(179, 195, 239, 0.023), rgba(146, 155, 240, 0.014)),
+        url(hospital.jpg) no-repeat center center;
+    background-size: cover;
+}
 
-    select, table, button {
-      margin: 10px 0;
-      padding: 10px;
-      font-size: 16px;
-    }
+/* Navbar Styling */
+.navbar {
+    width: 1200px;
+    height: 75px;
+    margin: auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
 
-    button {
-      background-color: green;
-      color: white;
-      border: none;
-      cursor: pointer;
-    }
+.icon h2.logo {
+    color: #070733;
+    font-size: 35px;
+    font-family: Arial, Helvetica, sans-serif;
+}
 
-    button:hover {
-      background-color: darkgreen;
-    }
+/* Navigation Menu */
+.menu ul {
+    list-style: none;
+    display: flex;
+    gap: 40px;
+}
 
-    table {
-      width: 100%;
-      border-collapse: collapse;
-    }
+.menu ul li a {
+    text-decoration: none;
+    color: white;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    transition: color 0.4s ease-in-out;
+}
 
-    table, th, td {
-      border: 1px solid black;
-    }
+.menu ul li a:hover {
+    color: blueviolet;
+}
 
-    th, td {
-      padding: 10px;
-      text-align: center;
-    }
+/* Search Box */
+.search {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
 
-    .selected {
-      background-color: lightblue;
-    }
+.srch {
+    font-family: "Times New Roman", Times, serif;
+    width: 200px;
+    height: 40px;
+    background: transparent;
+    border: 1px solid rgb(244, 244, 250);
+    color: white;
+    padding: 0 10px;
+    border-radius: 5px 0 0 5px;
+}
+
+.btn {
+    width: 100px;
+    height: 40px;
+    background: rgb(180, 214, 240);
+    border: 2px solid rgb(180, 214, 240);
+    color: white;
+    font-size: 15px;
+    border-radius: 0 5px 5px 0;
+    cursor: pointer;
+}
+
+.btn:hover {
+    background: rgb(140, 194, 220);
+}
+
+/* Appointment Form Box */
+#mybox {
+    background-color: rgba(176, 143, 207, 0.9);
+    border-radius: 20px;
+    width: 600px;
+    margin: 50px auto;
+    padding: 30px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    color: white;
+    font-family: Arial, sans-serif;
+}
+
+#mybox h1,
+#mybox h3 {
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid #e49df2;
+}
+
+button {
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    background-color: rgb(118, 1, 150);
+    color: white;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: rgb(45, 6, 71);
+}
+
+/* Timetable Styling */
+#timetable {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background: white;
+}
+
+#timetable th,
+#timetable td {
+    padding: 10px;
+    text-align: center;
+    border: 3px solid rgb(217, 182, 236);
+}
+
+#timetable th {
+    background: #441361;
+    color: white;
+    font-size: 16px;
+}
+
+#timetable tr:nth-child(even) {
+    background: #f2f2f2;
+}
+
+#timetable tr:hover {
+    background: lightblue;
+    cursor: pointer;
+}
+
+#timetable tr.selected {
+    background-color: #2196f3;
+    color: white;
+}
+
+
   </style>
+    
 </head>
 <body>
+  <div class="main">
+    <div class="navbar">
+        <div class="icon">
+            <h2 class="logo">MyHospital</h2>
+        </div>
 
-  <h1>Book Appointment</h1>
+        <div class="menu">
+            <ul>
+                <li><a href="homepage.html">Home</a></li>
+                <li><a href="aboutpage.html">About</a></li>
+                <li><a href="feedbackpatient.html">Contact</a></li>
+            </ul>
+        </div>
+        <div class="search">
+            <input class="srch" type="search" name="" placeholder="Type">
+            <a href="#"> <button class="btn">Search</button></a>
+        </div>
+    </div>
 
   <!-- Department selection dropdown -->
+  <div id="mybox">
   <label for="selectDepartment">Select Department:</label>
   <select id="selectDepartment" onchange="populateDoctors()">
     <option value="">-- Select a Department --</option>
@@ -88,7 +230,7 @@
 
   <button id="bookAppointment" onclick="bookAppointment()">Book Appointment</button>
   <button id="cancelAppointment" onclick="cancelAppointment()">Cancel Appointment</button>
-
+  </div>
   <script>
     // Function to populate doctors based on selected department
     async function populateDoctors() {

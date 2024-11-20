@@ -8,7 +8,7 @@
         /* General body styling */
         body {
             font-family: 'Arial', sans-serif;
-            background-color: #f4f7f9;
+            background: linear-gradient(to top,rgba(179, 195, 239, 0) 10%, rgba(146, 156, 240, 0) 10%), url(hospital.jpg);
             margin: 0;
             padding: 0;
             display: flex;
@@ -23,15 +23,16 @@
             width: 95%;
             max-width: 800px;
             padding: 30px;
-            background-color: #ffffff;
+            background-color: #7869ae;
             border-radius: 12px;
             box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
             text-align: center;
+            margin-left: 200px;
         }
 
         /* Page title styling */
         h1 {
-            color: #333;
+            color: #150334;
             margin-bottom: 20px;
             font-size: 32px;
             font-weight: bold;
@@ -40,7 +41,7 @@
         /* Subheading text */
         p {
             font-size: 16px;
-            color: #666;
+            color: #1f0334;
             margin-bottom: 30px;
         }
 
@@ -61,21 +62,138 @@
 
         .feedback-item h3 {
             margin: 0 0 5px;
-            color: #4cb54f;
+            color: #09043b;
         }
 
         .feedback-item p {
             margin: 5px 0;
-            color: #555;
+            color: #18043f;
         }
 
         .feedback-item .rating {
             font-weight: bold;
-            color: #333;
+            color: #16053e;
         }
-    </style>
+
+        *{
+            margin:0;
+            padding: 0;
+}
+.main{
+    width: 100%;
+    background: linear-gradient(to top,rgba(179, 195, 239, 0) 10%, rgba(146, 156, 240, 0) 10%), url(hospital.jpg);
+    background-position: center;
+    background-size: cover;
+    height: 109vh;
+}
+.navbar{
+    width: 1200px;
+    height:75px;
+    margin:auto;
+}
+.icon{
+    width: 200px;
+    float:left;
+    height: 70px;
+}
+.logo{
+    color: rgb(7, 7, 51);
+    font-size:35px;
+    font-family:Arial, Helvetica, sans-serif;
+    padding-left: 20px;
+    float: left;
+    padding-top: 10px;
+}
+.menu{
+    width: 400px;
+    float: left;
+    height:70px;
+
+}
+ul{
+    float: left;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+}
+ul li{
+    list-style: none;
+    margin-left: 62px;
+    margin-top: 27px;
+    font-size: 14px;
+}
+ul li a{
+    text-decoration: none;
+    color: white;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    transition: 0.4s ease-in-out;
+}
+
+ul li a:hover{
+    color: blueviolet;
+}
+.search{
+    width: 330px;
+    float: left;
+    margin-left: 270px;
+
+}
+.srch{
+    font-family: 'Times New Roman', Times, serif;
+    width: 200px;
+    height: 40px;
+    background: transparent;
+    border: 1px solid rgb(244, 244, 250);
+    margin-top: 13px;
+    color:white;
+    border-right: none ;
+    font-size: 16px;
+    float: left;
+    padding: 10px;
+    border-bottom-left-radius: 5px;
+    border-top-left-radius: 5px;
+}
+.btn{
+    width:100px;
+    height: 40px;
+    background: rgb(180, 214, 240);
+    border: 2px solid  rgb(180, 214, 240);
+    margin-top: 13px;
+    color: white;
+    font-size: 15px;
+    border-bottom-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+
+}
+
+.btn:focus{
+    outline: none;
+}
+.srch:focus{
+    outline:none;
+}
+</style>
 </head>
 <body>
+    <div class="main">
+        <div class="navbar">
+            <div class="icon">
+                <h2 class="logo">MyHospital</h2>
+            </div>
+
+            <div class="menu">
+                <ul>
+                    <li><a href="homepage.html">Home</a></li>
+                    <li><a href="aboutpage.html">About</a></li>
+                    <li><a href="feedback.html">Contact</a></li>
+                </ul>
+            </div>
+            <div class="search">
+                <input class="srch" type="search" name="" placeholder="Type">
+                <a href="#"> <button class="btn">Search</button></a>
+            </div>
+        </div>
     <div class="container">
         <h1>Customer Feedback</h1>
         <p>Read what our customers have to say about our services.</p>

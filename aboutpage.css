@@ -1,0 +1,149 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box; /* Ensure consistent box sizing */
+}
+
+.content {
+    display: flex;
+    flex-direction: column; /* Align content vertically if needed */
+    justify-content: center;
+    align-items: center; /* Center the content horizontally */
+    width: 100%; /* Ensure it spans the available space */
+    text-align: center; /* Center-align text within the content div */
+    background-color: rgba(105, 34, 171, 0.47);
+}
+
+.main {
+    width: 100%;
+    height: 100vh; /* Use 100vh to perfectly cover the viewport */
+    background: linear-gradient(
+            to top,
+            rgba(179, 195, 239, 0.1) 10%,
+            rgba(146, 156, 240, 0.1) 10%
+        ),
+        url(hospital.jpg);
+    background-position: center;
+    background-size: cover;
+    display: flex; /* Use flexbox for centering */
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.navbar {
+    width: 1200px;
+    height: 75px;
+    margin: auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.icon {
+    display: flex;
+    align-items: center;
+}
+
+.logo {
+    color: rgb(7, 7, 51);
+    font-size: 35px;
+    font-family: Arial, Helvetica, sans-serif;
+    padding-left: 20px;
+}
+
+.menu ul {
+    list-style: none;
+    display: flex;
+    gap: 30px; /* Space out menu items */
+    align-items: center;
+}
+
+ul li {
+    font-size: 14px;
+}
+
+ul li a {
+    text-decoration: none;
+    color: white;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    transition: 0.4s ease-in-out;
+}
+
+ul li a:hover {
+    color: blueviolet;
+}
+
+.search {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.srch {
+    font-family: 'Times New Roman', Times, serif;
+    width: 200px;
+    height: 40px;
+    background: transparent;
+    border: 1px solid rgb(244, 244, 250);
+    color: white;
+    font-size: 16px;
+    border-radius: 5px 0 0 5px;
+    padding: 0 10px;
+}
+
+.btn {
+    width: 100px;
+    height: 40px;
+    background: rgb(180, 214, 240);
+    border: 2px solid rgb(180, 214, 240);
+    color: white;
+    font-size: 15px;
+    border-radius: 0 5px 5px 0;
+    cursor: pointer;
+}
+
+.btn:focus,
+.srch:focus {
+    outline: none;
+}
+
+/* Centered Box */
+.box1 {
+    width: 400px;
+    margin: auto; /* Center horizontally */
+    color: white;
+    text-align: center; /* Center text */
+    padding: 30px;
+    background-color: rgba(83, 76, 150, 0.402);
+    border-radius: 20px;
+    border: 1px solid white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add subtle shadow */
+}
+
+/* Subheading Spacing */
+.box1 h1,
+.box1 h2,
+.box1 h3 {
+    margin-bottom: 20px; /* Add spacing below subheadings */
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.box1 p {
+    line-height: 1.6;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Responsive Design */
+@media screen and (max-width: 600px) {
+    .navbar {
+        flex-direction: column;
+        height: auto;
+    }
+
+    .box1 {
+        width: 90%; /* Expand for smaller screens */
+        padding: 20px;
+    }
+}
