@@ -92,73 +92,74 @@
   <script>
     // Function to populate doctors based on selected department
     async function populateDoctors() {
-      const department = document.getElementById("selectDepartment").value;
-      const selectDoctor = document.getElementById("selectDoctor");
+  const department = document.getElementById("selectDepartment").value;
+  const selectDoctor = document.getElementById("selectDoctor");
 
-      if (!department) {
-        alert("Please select a department.");
-        return;
-      }
+  if (!department) {
+    alert("Please select a department.");
+    return;
+  }
 
-      // Clear previous doctors
-      selectDoctor.innerHTML = "<option value=''>-- Select a Doctor --</option>";
+  selectDoctor.innerHTML = "<option value=''>-- Select a Doctor --</option>";
 
-      try {
-        // Fetch doctors from the selected department
-        const response = await fetch(`http://localhost:3003/doctors?specialty=${encodeURIComponent(department)}`);
-        const doctors = await response.json();
+  try {
+    const response = await fetch(`http://localhost:3003/doctors?specialty=${encodeURIComponent(department)}`);
+    const doctors = await response.json();
 
-        if (doctors.length === 0) {
-          alert("No doctors available for this department.");
-          return;
-        }
-
-        // Populate doctor dropdown
-        doctors.forEach((doctor) => {
-          const option = document.createElement("option");
-          option.value = doctor.doctorID;
-          option.textContent = `${doctor.doctorName} - ${doctor.doctorSpecialty}`;
-          selectDoctor.appendChild(option);
-        });
-      } catch (error) {
-        console.error("Error loading doctors:", error);
-        alert("An error occurred while loading doctors. Please try again.");
-      }
+    if (doctors.length === 0) {
+      alert("No doctors available for this department.");
+      return;
     }
+
+    doctors.forEach((doctor) => {
+      const option = document.createElement("option");
+      option.value = doctor.doctorID;
+      option.textContent = `${doctor.doctorName} - ${doctor.doctorSpecialty}`;
+      selectDoctor.appendChild(option);
+    });
+  } catch (error) {
+    console.error("Error loading doctors:", error);
+    alert("An error occurred while loading doctors. Please try again.");
+  }
+}
+
 
     // Function to populate the timetable based on selected doctor
     async function populateTimetable() {
-      const doctorID = document.getElementById("selectDoctor").value;
-      const timetableBody = document.getElementById("timetable").getElementsByTagName('tbody')[0];
+  const doctorID = document.getElementById("selectDoctor").value;
+  const timetableBody = document.getElementById("timetable").querySelector("tbody");
 
-      if (!doctorID) {
-        alert("Please select a doctor.");
-        return;
-      }
+  if (!doctorID) {
+    alert("Please select a doctor.");
+    return;
+  }
 
-      // Clear previous timetable
-      timetableBody.innerHTML = "";
+  timetableBody.innerHTML = "";
 
-      try {
-        const response = await fetch(`http://localhost:3003/doctors/${doctorID}/schedule`);
-        const schedule = await response.json();
+  try {
+    const response = await fetch(`http://localhost:3003/doctors/${doctorID}/schedule`);
+    const schedule = await response.json();
 
-        schedule.forEach((slot) => {
-          const row = timetableBody.insertRow();
-          const cellDay = row.insertCell(0);
-          const cellTime = row.insertCell(1);
-          const cellStatus = row.insertCell(2);
-
-          cellDay.textContent = slot.day;
-          cellTime.textContent = slot.time_slot;
-          cellStatus.textContent = slot.status;
-          row.setAttribute('data-slot-id', slot.scheduleID);  // Store the schedule ID
-        });
-      } catch (error) {
-        console.error("Error loading timetable:", error);
-        alert("An error occurred while loading the timetable. Please try again.");
-      }
+    if (!schedule || schedule.length === 0) {
+      alert("No schedule available for this doctor.");
+      return;
     }
+
+    schedule.forEach((slot) => {
+      const row = timetableBody.insertRow();
+      row.innerHTML = `
+        <td>${slot.day}</td>
+        <td>${slot.time_slot}</td>
+        <td>${slot.status}</td>
+      `;
+      row.dataset.slotId = slot.scheduleID;
+    });
+  } catch (error) {
+    console.error("Error loading timetable:", error);
+    alert("An error occurred while loading the timetable.");
+  }
+}
+
 
     // Function to handle the appointment booking
     function bookAppointment() {

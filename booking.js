@@ -78,7 +78,40 @@ app.post("/doctors", (req, res) => {
       `;
 
       const scheduleParams = Array(40).fill(doctorID); // 40 time slots for each day
+       
+      db.query(scheduleQuery, scheduleParams, (scheduleErr, scheduleResults) => {
+        if (scheduleErr) {
+          console.error("Error inserting schedule:", scheduleErr.message);
+          return res.status(500).json({ message: "Failed to add schedule." });
+        }
 
+        console.log("Doctors and schedule successfully added/modified.");
+        res.json({ message: "Doctors added/modified with schedule." });
+        
+        const scheduleQuery2 = `
+        INSERT INTO doctor_schedule (doctorID, day, time_slot, status)
+        VALUES 
+        (?, 'Monday', '09:00', 'available'), (?, 'Monday', '10:00', 'available'), (?, 'Monday', '11:00', 'available'),
+        (?, 'Monday', '12:00', 'available'), (?, 'Monday', '13:00', 'available'), (?, 'Monday', '14:00', 'available'),
+        (?, 'Monday', '15:00', 'available'), (?, 'Monday', '16:00', 'available'),
+
+        (?, 'Tuesday', '09:00', 'available'), (?, 'Tuesday', '10:00', 'available'), (?, 'Tuesday', '11:00', 'available'),
+        (?, 'Tuesday', '12:00', 'available'), (?, 'Tuesday', '13:00', 'available'), (?, 'Tuesday', '14:00', 'available'),
+        (?, 'Tuesday', '15:00', 'available'), (?, 'Tuesday', '16:00', 'available'),
+
+        (?, 'Wednesday', '09:00', 'available'), (?, 'Wednesday', '10:00', 'available'), (?, 'Wednesday', '11:00', 'available'),
+        (?, 'Wednesday', '12:00', 'available'), (?, 'Wednesday', '13:00', 'available'), (?, 'Wednesday', '14:00', 'available'),
+        (?, 'Wednesday', '15:00', 'available'), (?, 'Wednesday', '16:00', 'available'),
+
+        (?, 'Thursday', '09:00', 'available'), (?, 'Thursday', '10:00', 'available'), (?, 'Thursday', '11:00', 'available'),
+        (?, 'Thursday', '12:00', 'available'), (?, 'Thursday', '13:00', 'available'), (?, 'Thursday', '14:00', 'available'),
+        (?, 'Thursday', '15:00', 'available'), (?, 'Thursday', '16:00', 'available'),
+
+        (?, 'Friday', '09:00', 'available'), (?, 'Friday', '10:00', 'available'), (?, 'Friday', '11:00', 'available'),
+        (?, 'Friday', '12:00', 'available'), (?, 'Friday', '13:00', 'available'), (?, 'Friday', '14:00', 'available'),
+        (?, 'Friday', '15:00', 'available'), (?, 'Friday', '16:00', 'available')
+      `;
+      const scheduleParams = Array(40).fill(doctorID); // 40 time slots for each day
       db.query(scheduleQuery, scheduleParams, (scheduleErr, scheduleResults) => {
         if (scheduleErr) {
           console.error("Error inserting schedule:", scheduleErr.message);
@@ -88,6 +121,7 @@ app.post("/doctors", (req, res) => {
         console.log("Doctor and schedule successfully added/modified.");
         res.json({ message: "Doctor added/modified with schedule." });
       });
+    });
     }
   );
 });

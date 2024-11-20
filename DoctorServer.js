@@ -25,7 +25,7 @@ db.connect((err) => {
   console.log("Connected to MySQL database.");
 });
 
-// Add or Modify Doctor (with schedule)
+// Add or Modify a Doctor and their Schedule
 app.post("/doctors", (req, res) => {
   const { doctorID, doctorName, doctorSpecialty, doctorPhone } = req.body;
 
@@ -33,7 +33,7 @@ app.post("/doctors", (req, res) => {
     return res.status(400).json({ message: "All fields are required." });
   }
 
-  // Insert or update the doctor
+  // Insert or update the doctor in the `doctors` table
   const doctorQuery = `
     INSERT INTO doctors (doctorID, doctorName, doctorSpecialty, doctorPhone)
     VALUES (?, ?, ?, ?)
@@ -43,48 +43,57 @@ app.post("/doctors", (req, res) => {
       doctorPhone = VALUES(doctorPhone)
   `;
 
-  db.query(
-    doctorQuery,
-    [doctorID, doctorName, doctorSpecialty, doctorPhone],
-    (err, results) => {
+  db.query(doctorQuery, [doctorID, doctorName, doctorSpecialty, doctorPhone], (err) => {
+    if (err) {
+      console.error("Error inserting doctor:", err.message);
+      return res.status(500).json({ message: "Failed to add/modify doctor." });
+    }
+
+    // Default schedule for the doctor
+    const defaultSchedule = [
+      ["Monday", "09:00"], ["Monday", "10:00"], ["Monday", "11:00"],
+      ["Tuesday", "09:00"], ["Tuesday", "10:00"], ["Tuesday", "11:00"],
+      ["Wednesday", "09:00"], ["Wednesday", "10:00"], ["Wednesday", "11:00"],
+      ["Thursday", "09:00"], ["Thursday", "10:00"], ["Thursday", "11:00"],
+      ["Friday", "09:00"], ["Friday", "10:00"], ["Friday", "11:00"]
+    ];
+
+    const doctorScheduleParams = defaultSchedule.map(([day, time]) => [doctorID, day, time, "available"]);
+    const doctorsScheduleParams = defaultSchedule.map(([day, time]) => [doctorID, day, time, "available"]);
+
+    // Insert or update schedule in `doctor_schedule`
+    const insertDoctorScheduleQuery = `
+      INSERT INTO doctor_schedule (doctorID, day, time_slot, status)
+      VALUES ?
+      ON DUPLICATE KEY UPDATE status = VALUES(status)
+    `;
+
+    db.query(insertDoctorScheduleQuery, [doctorScheduleParams], (err) => {
       if (err) {
-        console.error("Error inserting doctor:", err.message);
-        return res.status(500).json({ message: "Failed to add/modify doctor." });
+        console.error("Error inserting into doctor_schedule:", err.message);
+        return res.status(500).json({ message: "Failed to add schedule to doctor_schedule." });
       }
 
-      // Insert full weekly schedule for the doctor (Monday to Friday, 9:00 to 16:00)
-      const scheduleQuery = `
+      // Insert or update schedule in `doctors_schedule`
+      const insertDoctorsScheduleQuery = `
         INSERT INTO doctors_schedule (doctor_id, day, time_slot, status)
-        VALUES 
-        (?, 'Monday', '09:00', 'available'), (?, 'Monday', '10:00', 'available'),
-        (?, 'Monday', '11:00', 'available'),
-        (?, 'Tuesday', '09:00', 'available'), (?, 'Tuesday', '10:00', 'available'),
-        (?, 'Tuesday', '11:00', 'available'),
-        (?, 'Wednesday', '09:00', 'available'), (?, 'Wednesday', '10:00', 'available'),
-        (?, 'Wednesday', '11:00', 'available'),
-        (?, 'Thursday', '09:00', 'available'), (?, 'Thursday', '10:00', 'available'),
-        (?, 'Thursday', '11:00', 'available'),
-        (?, 'Friday', '09:00', 'available'), (?, 'Friday', '10:00', 'available'),
-        (?, 'Friday', '11:00', 'available')
-      ON DUPLICATE KEY UPDATE
-        status = VALUES(status)
+        VALUES ?
+        ON DUPLICATE KEY UPDATE status = VALUES(status)
       `;
 
-      const params = Array(40).fill(doctorID); // 40 time slots
-
-      db.query(scheduleQuery, params, (scheduleErr, scheduleResults) => {
-        if (scheduleErr) {
-          console.error("Error inserting schedule:", scheduleErr.message);
-          console.error("Schedule Query Parameters:", params);
-          return res.status(500).json({ message: "Failed to add default schedule." });
+      db.query(insertDoctorsScheduleQuery, [doctorsScheduleParams], (err) => {
+        if (err) {
+          console.error("Error inserting into doctors_schedule:", err.message);
+          return res.status(500).json({ message: "Failed to add schedule to doctors_schedule." });
         }
 
-        console.log("Schedule successfully inserted for doctor:", doctorID);
-        res.json({ message: "Doctor added/modified with default schedule." });
+        res.json({ message: "Doctor and schedules successfully added/modified." });
       });
-    }
-  );
+    });
+  });
 });
+
+// Fetch all doctors
 app.get("/doctors", (req, res) => {
   const query = "SELECT doctorID, doctorName, doctorSpecialty FROM doctors";
 
@@ -101,17 +110,19 @@ app.get("/doctors", (req, res) => {
 app.get("/doctors/:doctorID", (req, res) => {
   const doctorID = req.params.doctorID;
   const query = "SELECT * FROM doctors WHERE doctorID = ?";
+
   db.query(query, [doctorID], (err, results) => {
     if (err) {
-      console.error("Error fetching doctor:", err);
-      res.status(500).send({ message: "Failed to fetch doctor." });
-    } else {
-      res.json(results[0]); // Return the first match
+      console.error("Error fetching doctor:", err.message);
+      return res.status(500).json({ message: "Failed to fetch doctor." });
     }
+    res.json(results[0]); // Return the first match
   });
 });
-app.delete('/doctors/:doctorID', (req, res) => {
-  const { doctorID } = req.params;
+
+// Delete a doctor
+app.delete("/doctors/:doctorID", (req, res) => {
+  const doctorID = req.params.doctorID;
 
   const deleteDoctorQuery = "DELETE FROM doctors WHERE doctorID = ?";
 
@@ -122,16 +133,31 @@ app.delete('/doctors/:doctorID', (req, res) => {
     }
 
     if (results.affectedRows > 0) {
-      res.json({ message: "Doctor with ID ${doctorID} deleted successfully." });
+      res.json({ message: `Doctor with ID ${doctorID} deleted successfully.` });
     } else {
-      res.status(404).json({ message: "Doctor with ID ${doctorID} not found." });
+      res.status(404).json({ message: `Doctor with ID ${doctorID} not found.` });
     }
   });
 });
 
-  
+// Fetch schedule for a doctor
+app.get("/doctors/:doctorID/schedule", (req, res) => {
+  const doctorID = req.params.doctorID;
+  const query = "SELECT * FROM doctor_schedule WHERE doctorID = ?";
 
+  db.query(query, [doctorID], (err, results) => {
+    if (err) {
+      console.error("Error fetching schedule:", err.message);
+      return res.status(500).json({ message: "Failed to fetch schedule." });
+    }
 
+    if (results.length === 0) {
+      return res.status(404).json({ message: "No schedule found for this doctor." });
+    }
+
+    res.json(results); // Return the schedule as JSON
+  });
+});
 
 // Start the server
 const PORT = 3001;

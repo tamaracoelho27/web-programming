@@ -25,7 +25,6 @@ db.connect((err) => {
   console.log("Connected to MySQL database.");
 });
 
-// Add or Modify Doctor (with schedule)
 app.post("/doctors", (req, res) => {
   const { doctorID, doctorName, doctorSpecialty, doctorPhone } = req.body;
 
@@ -43,53 +42,85 @@ app.post("/doctors", (req, res) => {
       doctorPhone = VALUES(doctorPhone)
   `;
 
-  db.query(
-    doctorQuery,
-    [doctorID, doctorName, doctorSpecialty, doctorPhone],
-    (err, results) => {
-      if (err) {
-        console.error("Error inserting doctor:", err.message);
-        return res.status(500).json({ message: "Failed to add/modify doctor." });
+  db.query(doctorQuery, [doctorID, doctorName, doctorSpecialty, doctorPhone], (err, results) => {
+    if (err) {
+      console.error("Error inserting doctor:", err.message);
+      return res.status(500).json({ message: "Failed to add/modify doctor." });
+    }
+
+    // Insert full weekly schedule for the doctor (Monday to Friday, 9:00 to 16:00) into doctor_schedule
+    const scheduleQuery1 = `
+      INSERT INTO doctor_schedule (doctorID, day, time_slot, status)
+      VALUES 
+      (?, 'Monday', '09:00', 'available'), (?, 'Monday', '10:00', 'available'),
+      (?, 'Monday', '11:00', 'available'), (?, 'Monday', '12:00', 'available'),
+      (?, 'Monday', '13:00', 'available'), (?, 'Monday', '14:00', 'available'),
+      (?, 'Monday', '15:00', 'available'), (?, 'Monday', '16:00', 'available'),
+      (?, 'Tuesday', '09:00', 'available'), (?, 'Tuesday', '10:00', 'available'),
+      (?, 'Tuesday', '11:00', 'available'), (?, 'Tuesday', '12:00', 'available'),
+      (?, 'Tuesday', '13:00', 'available'), (?, 'Tuesday', '14:00', 'available'),
+      (?, 'Tuesday', '15:00', 'available'), (?, 'Tuesday', '16:00', 'available'),
+      (?, 'Wednesday', '09:00', 'available'), (?, 'Wednesday', '10:00', 'available'),
+      (?, 'Wednesday', '11:00', 'available'), (?, 'Wednesday', '12:00', 'available'),
+      (?, 'Wednesday', '13:00', 'available'), (?, 'Wednesday', '14:00', 'available'),
+      (?, 'Wednesday', '15:00', 'available'), (?, 'Wednesday', '16:00', 'available'),
+      (?, 'Thursday', '09:00', 'available'), (?, 'Thursday', '10:00', 'available'),
+      (?, 'Thursday', '11:00', 'available'), (?, 'Thursday', '12:00', 'available'),
+      (?, 'Thursday', '13:00', 'available'), (?, 'Thursday', '14:00', 'available'),
+      (?, 'Thursday', '15:00', 'available'), (?, 'Thursday', '16:00', 'available'),
+      (?, 'Friday', '09:00', 'available'), (?, 'Friday', '10:00', 'available'),
+      (?, 'Friday', '11:00', 'available'), (?, 'Friday', '12:00', 'available'),
+      (?, 'Friday', '13:00', 'available'), (?, 'Friday', '14:00', 'available'),
+      (?, 'Friday', '15:00', 'available'), (?, 'Friday', '16:00', 'available')
+    `;
+
+    const scheduleParams1 = Array(40).fill(doctorID); // Repeat doctorID for each time slot
+
+    db.query(scheduleQuery1, scheduleParams1, (scheduleErr, scheduleResults) => {
+      if (scheduleErr) {
+        console.error("Error inserting schedule into doctor_schedule:", scheduleErr.message);
+        return res.status(500).json({ message: "Failed to add schedule to doctor_schedule." });
       }
 
-      // Insert full weekly schedule for the doctor (Monday to Friday, 9:00 to 16:00)
-      const scheduleQuery = `
-        INSERT INTO doctor_schedule (doctorID, day, time_slot, status)
+      // Now insert into doctors_schedule
+      const scheduleQuery2 = `
+        INSERT INTO doctors_schedule (doctor_id, day, time_slot, status)
         VALUES 
-        (?, 'Monday', '09:00', 'available'), (?, 'Monday', '10:00', 'available'), (?, 'Monday', '11:00', 'available'),
-        (?, 'Monday', '12:00', 'available'), (?, 'Monday', '13:00', 'available'), (?, 'Monday', '14:00', 'available'),
+        (?, 'Monday', '09:00', 'available'), (?, 'Monday', '10:00', 'available'),
+        (?, 'Monday', '11:00', 'available'), (?, 'Monday', '12:00', 'available'),
+        (?, 'Monday', '13:00', 'available'), (?, 'Monday', '14:00', 'available'),
         (?, 'Monday', '15:00', 'available'), (?, 'Monday', '16:00', 'available'),
-
-        (?, 'Tuesday', '09:00', 'available'), (?, 'Tuesday', '10:00', 'available'), (?, 'Tuesday', '11:00', 'available'),
-        (?, 'Tuesday', '12:00', 'available'), (?, 'Tuesday', '13:00', 'available'), (?, 'Tuesday', '14:00', 'available'),
+        (?, 'Tuesday', '09:00', 'available'), (?, 'Tuesday', '10:00', 'available'),
+        (?, 'Tuesday', '11:00', 'available'), (?, 'Tuesday', '12:00', 'available'),
+        (?, 'Tuesday', '13:00', 'available'), (?, 'Tuesday', '14:00', 'available'),
         (?, 'Tuesday', '15:00', 'available'), (?, 'Tuesday', '16:00', 'available'),
-
-        (?, 'Wednesday', '09:00', 'available'), (?, 'Wednesday', '10:00', 'available'), (?, 'Wednesday', '11:00', 'available'),
-        (?, 'Wednesday', '12:00', 'available'), (?, 'Wednesday', '13:00', 'available'), (?, 'Wednesday', '14:00', 'available'),
+        (?, 'Wednesday', '09:00', 'available'), (?, 'Wednesday', '10:00', 'available'),
+        (?, 'Wednesday', '11:00', 'available'), (?, 'Wednesday', '12:00', 'available'),
+        (?, 'Wednesday', '13:00', 'available'), (?, 'Wednesday', '14:00', 'available'),
         (?, 'Wednesday', '15:00', 'available'), (?, 'Wednesday', '16:00', 'available'),
-
-        (?, 'Thursday', '09:00', 'available'), (?, 'Thursday', '10:00', 'available'), (?, 'Thursday', '11:00', 'available'),
-        (?, 'Thursday', '12:00', 'available'), (?, 'Thursday', '13:00', 'available'), (?, 'Thursday', '14:00', 'available'),
+        (?, 'Thursday', '09:00', 'available'), (?, 'Thursday', '10:00', 'available'),
+        (?, 'Thursday', '11:00', 'available'), (?, 'Thursday', '12:00', 'available'),
+        (?, 'Thursday', '13:00', 'available'), (?, 'Thursday', '14:00', 'available'),
         (?, 'Thursday', '15:00', 'available'), (?, 'Thursday', '16:00', 'available'),
-
-        (?, 'Friday', '09:00', 'available'), (?, 'Friday', '10:00', 'available'), (?, 'Friday', '11:00', 'available'),
-        (?, 'Friday', '12:00', 'available'), (?, 'Friday', '13:00', 'available'), (?, 'Friday', '14:00', 'available'),
+        (?, 'Friday', '09:00', 'available'), (?, 'Friday', '10:00', 'available'),
+        (?, 'Friday', '11:00', 'available'), (?, 'Friday', '12:00', 'available'),
+        (?, 'Friday', '13:00', 'available'), (?, 'Friday', '14:00', 'available'),
         (?, 'Friday', '15:00', 'available'), (?, 'Friday', '16:00', 'available')
       `;
 
-      const scheduleParams = Array(40).fill(doctorID); // 40 time slots for each day
+      const scheduleParams2 = Array(40).fill(doctorID); // Repeat doctorID for each time slot
 
-      db.query(scheduleQuery, scheduleParams, (scheduleErr, scheduleResults) => {
-        if (scheduleErr) {
-          console.error("Error inserting schedule:", scheduleErr.message);
-          return res.status(500).json({ message: "Failed to add schedule." });
+      db.query(scheduleQuery2, scheduleParams2, (scheduleErr2, scheduleResults2) => {
+        if (scheduleErr2) {
+          console.error("Error inserting schedule into doctors_schedule:", scheduleErr2.message);
+          return res.status(500).json({ message: "Failed to add schedule to doctors_schedule." });
         }
 
         console.log("Doctor and schedule successfully added/modified.");
         res.json({ message: "Doctor added/modified with schedule." });
       });
-    }
-  );
+    });
+  });
 });
 
 // Fetch Doctors by Specialty (Department)
