@@ -9,12 +9,11 @@
         // Function to open new window based on panel clicked
         function openNewWindow(panel) {
             if (panel === 'schedule') {
-                window.open('schedule.html', '_blank'); // Opens the Doctor Schedules page in a new window
+                window.open('booking.html', '_blank'); // Opens the Doctor Schedules page in a new window
             } else if (panel === 'modify') {
                 window.open('modify.html', '_blank'); // Opens the Modify Doctor Details page in a new window
-            } else if (panel === 'receipts') {
-                window.open('receipts.html', '_blank'); // Opens the View Receipts page in a new window
-            } else if (panel === 'feedback') {
+            }  // Opens the View Receipts page in a new window
+             else if (panel === 'feedback') {
                 window.open('feedback.html', '_blank'); // Opens the View Feedback page in a new window
             }
         }
@@ -31,7 +30,6 @@
             <ul>
                 <li><a href="doctors.html">Doctor Schedules</a></li>
                 <li><a href="modify.html">Modify Doctor Details</a></li>
-                <li><a href="receipts.html">View Receipts</a></li>
                 <li><a href="feedback.html">View Feedback</a></li>
             </ul>
         </nav>
@@ -45,11 +43,6 @@
             <div class="card" id="modify" onclick="openNewWindow('modify')">
                 <h2>Modify Doctor Details</h2>
                 <p>Edit and update doctor profiles and specialisations.</p>
-            </div>
-
-            <div class="card" id="receipts" onclick="openNewWindow('receipts')">
-                <h2>View Receipts</h2>
-                <p>View and manage financial transactions and receipts.</p>
             </div>
 
             <div class="card" id="feedback" onclick="openNewWindow('feedback')">

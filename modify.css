@@ -1,6 +1,7 @@
+
 body {
     font-family: Arial, sans-serif;
-    background-color: #f0f0f0;
+    background: linear-gradient(to top,rgba(179, 195, 239, 0) 10%, rgba(146, 156, 240, 0) 10%), url(modify_bg.jpg);
     margin: 0;
     padding: 0;
   }
@@ -9,7 +10,8 @@ body {
     width: 80%;
     margin: 50px auto;
     padding: 20px;
-    background-color: #fff;
+    background-color: #eaeff8;
+    border-radius: 20px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   }
   
@@ -28,6 +30,9 @@ body {
   input,
   select {
     margin-bottom: 10px;
+    color: #040b3e;
+    font-size: larger;
+    font-family:'Times New Roman', Times, serif
   }
   
   .button-container {
@@ -38,7 +43,7 @@ body {
   
   .btn {
     padding: 10px 20px;
-    background-color: #4caf50;
+    background-color: #094181;
     color: white;
     border: none;
     cursor: pointer;
@@ -46,22 +51,22 @@ body {
   }
   
   .btn:hover {
-    background-color: #45a049;
+    background-color: #040b3e;
   }
   
   .btn-danger {
-    background-color: #f44336;
+    background-color: #610a03;
   }
   
   .btn-danger:hover {
-    background-color: #e53935;
+    background-color: #310100;
   }
   
   .btn-clear {
-    background-color: #808080;
+    background-color:7#094181;
   }
   
   .btn-clear:hover {
-    background-color: #696969;
+    background-color: #094181;
   }
   
